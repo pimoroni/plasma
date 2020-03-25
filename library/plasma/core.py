@@ -6,7 +6,11 @@ MAX_BRIGHTNESS = 3
 
 
 class Plasma():
+    name = ""
+
     options = {}
+
+    option_order = []
 
     def __init__(self, light_count):
         self._light_count = light_count
@@ -17,6 +21,7 @@ class Plasma():
 
     @classmethod
     def parse_options(self, options):
+        """Parse plasma option string into kwargs dict."""
         named_options = {}
         for index, option in enumerate(options):
             if "=" in option:
@@ -29,15 +34,19 @@ class Plasma():
         return named_options
 
     def get_pixel_count(self):
+        """Get the count of pixels."""
         return self._light_count * PIXELS_PER_LIGHT
 
     def get_light_count(self):
+        """Get the count of individual lights."""
         return self._light_count
 
     def show(self):
+        """Display changes."""
         raise NotImplementedError
 
     def atexit(self):
+        """Clear the display upon exit."""
         if not self._clear_on_exit:
             return
         self.clear()

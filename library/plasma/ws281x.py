@@ -1,8 +1,9 @@
-import time
 from .core import Plasma
 
 
 class PlasmaWS281X(Plasma):
+    name = "WS281X"
+
     options = {
         "gpio_pin": int,
         "strip_type": str,
