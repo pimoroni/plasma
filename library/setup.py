@@ -49,5 +49,5 @@ setup(
     url='http://www.pimoroni.com',
     classifiers=classifiers,
     packages=['plasma'],
-    install_requires=['RPi.GPIO']
+    install_requires=['pyyaml']
 )

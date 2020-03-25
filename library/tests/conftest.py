@@ -3,9 +3,12 @@
 These allow the mocking of various Python modules
 that might otherwise have runtime side-effects.
 """
+import os
 import sys
 import mock
 import pytest
+import pathlib
+import tempfile
 
 
 @pytest.fixture(scope='function', autouse=False)
@@ -41,3 +44,30 @@ def rpi_ws281x():
     yield rpi_ws281x
     del sys.modules['rpi_ws281x']
 
+
+@pytest.fixture(scope='function', autouse=False)
+def config_file():
+    """Temporary config file."""
+    file = tempfile.NamedTemporaryFile(delete=False)
+    file.write(b"""strip:
+pixels: 100
+devices:
+    WS281X:
+        pixels: 30
+        offset: 0
+        gpio_pin: 1
+        strip_type: WS2812
+    APA102:
+        pixels: 30
+        offset: 30
+        gpio_data: 10
+        gpio_clock: 11
+    SERIAL:
+        pixels: 40
+        offset: 60
+        gpio_data: 10
+        gpio_clock: 11
+""")
+    file.flush()
+    yield pathlib.Path(file.name)
+    file.close()
