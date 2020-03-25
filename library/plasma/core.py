@@ -6,12 +6,27 @@ MAX_BRIGHTNESS = 3
 
 
 class Plasma():
+    options = {}
+
     def __init__(self, light_count):
         self._light_count = light_count
         self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * PIXELS_PER_LIGHT
         self._clear_on_exit = False
 
         atexit.register(self.atexit)
+
+    @classmethod
+    def parse_options(self, options):
+        named_options = {}
+        for index, option in enumerate(options):
+            if "=" in option:
+                k, v = option.split("=")
+            else:
+                v = option
+                k = self.option_order[index]
+            named_options[k] = self.options[k](v)
+
+        return named_options
 
     def get_pixel_count(self):
         return self._light_count * PIXELS_PER_LIGHT

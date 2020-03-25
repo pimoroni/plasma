@@ -24,13 +24,17 @@ def get_device(descriptor):
 
     """
     dsc = descriptor.split(":")
+
+    output_type = dsc[0]
+    output_options = dsc[1:]
+
     if dsc[0] == "GPIO":
         from .gpio import PlasmaGPIO
-        return PlasmaGPIO, {'gpio_data': int(dsc[1]), 'gpio_clock': int(dsc[2])}
+        return PlasmaGPIO, PlasmaGPIO.parse_options(output_options)
     if dsc[0] == "SERIAL":
         from .usb import PlasmaSerial
-        return PlasmaSerial, {'port': dsc[1]}
+        return PlasmaSerial, PlasmaSerial.parse_options(output_options)
     if dsc[0] == "WS281X":
         from .ws281x import PlasmaWS281X
         # TODO: Add (optional) support for variable frequency, DMA, brightness and invert
-        return PlasmaWS281X, {'strip_type': dsc[1], 'gpio_pin': int(dsc[2]), 'channel': int(dsc[3])}
+        return PlasmaWS281X, PlasmaWS281X.parse_options(output_options)

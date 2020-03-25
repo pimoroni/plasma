@@ -3,6 +3,12 @@ from serial import Serial
 
 
 class PlasmaSerial(Plasma):
+    options = {
+        "port": str
+    }
+
+    option_order = ("port")
+
     def __init__(self, light_count, port='/dev/ttyAMA0', baudrate=115200):
         self._serial_port = port
         self._serial = Serial(port, baudrate=baudrate)

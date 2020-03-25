@@ -3,6 +3,18 @@ from .core import Plasma
 
 
 class PlasmaWS281X(Plasma):
+    options = {
+        "gpio_pin": int,
+        "strip_type": str,
+        "channel": int,
+        "brightness": int,
+        "freq_hz": int,
+        "dma": int,
+        "invert": bool
+    }
+
+    option_order = ("gpio_pin", "strip_type", "channel", "brightness", "freq_hz", "dma", "invert")
+
     def __init__(self, light_count, gpio_pin=13, strip_type='WS2812', channel=1, brightness=255, freq_hz=800000, dma=10, invert=False):
         from rpi_ws281x import PixelStrip, ws
 

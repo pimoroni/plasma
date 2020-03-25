@@ -3,6 +3,13 @@ from .core import Plasma
 
 
 class PlasmaGPIO(Plasma):
+    options = {
+        "gpio_data": int,
+        "gpio_clock": int
+    }
+
+    option_order = ("gpio_data", "gpio_clock")
+
     def __init__(self, light_count, gpio_data=14, gpio_clock=15, gpio=None):
         self._gpio = gpio
         if self._gpio is None:
