@@ -1,0 +1,18 @@
+strip:
+    pixels: 100
+    devices:
+        WS281X:
+            pixels: 30
+            offset: 0
+            gpio_pin: 1
+            strip_type: WS2812
+        APA102:
+            pixels: 30
+            offset: 30
+            gpio_data: 10
+            gpio_clock: 11
+        SERIAL:
+            pixels: 40
+            offset: 60
+            gpio_data: 10
+            gpio_clock: 11
