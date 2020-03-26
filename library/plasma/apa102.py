@@ -12,7 +12,7 @@ class PlasmaAPA102(Plasma):
 
     option_order = ("gpio_data", "gpio_clock")
 
-    def __init__(self, light_count, gpio_data=14, gpio_clock=15, gpio=None):
+    def __init__(self, light_count, pixels_per_light=4, gpio_data=14, gpio_clock=15, gpio=None):
         self._gpio = gpio
         if self._gpio is None:
             import RPi.GPIO as GPIO
@@ -21,7 +21,7 @@ class PlasmaAPA102(Plasma):
         self._gpio_data = gpio_data
         self._gpio_clock = gpio_clock
         self._gpio_is_setup = False
-        Plasma.__init__(self, light_count)
+        Plasma.__init__(self, light_count, pixels_per_light=pixels_per_light)
 
     def use_pins(self, gpio_data, gpio_clock):
         raise NotImplementedError

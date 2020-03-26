@@ -12,9 +12,10 @@ class Plasma():
 
     option_order = []
 
-    def __init__(self, light_count):
+    def __init__(self, light_count, pixels_per_light=PIXELS_PER_LIGHT):
+        self._pixels_per_light = pixels_per_light
         self._light_count = light_count
-        self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * PIXELS_PER_LIGHT
+        self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * self._pixels_per_light
         self._clear_on_exit = False
 
         atexit.register(self.atexit)
@@ -35,7 +36,7 @@ class Plasma():
 
     def get_pixel_count(self):
         """Get the count of pixels."""
-        return self._light_count * PIXELS_PER_LIGHT
+        return self._light_count * self._pixels_per_light
 
     def get_light_count(self):
         """Get the count of individual lights."""
@@ -75,8 +76,8 @@ class Plasma():
         :param b: Amount of blue: 0 to 255
 
         """
-        offset = index * PIXELS_PER_LIGHT
-        for x in range(PIXELS_PER_LIGHT):
+        offset = index * self._pixels_per_light
+        for x in range(self._pixels_per_light):
             self.set_pixel(offset + x, r, g, b, brightness)
 
     def set_all(self, r, g, b, brightness=None):
@@ -90,7 +91,7 @@ class Plasma():
         :param brightness: Brightness: 0.0 to 1.0 (default is 1.0)
 
         """
-        for x in range(self._light_count * PIXELS_PER_LIGHT):
+        for x in range(self._light_count * self._pixels_per_light):
             self.set_pixel(x, r, g, b, brightness)
 
     def get_pixel(self, x):
@@ -125,7 +126,7 @@ class Plasma():
 
     def clear(self):
         """Clear the pixel buffer."""
-        for x in range(self._light_count * PIXELS_PER_LIGHT):
+        for x in range(self._light_count * self._pixels_per_light):
             self._pixels[x][0:3] = [0, 0, 0]
 
     def set_brightness(self, brightness):
@@ -137,5 +138,5 @@ class Plasma():
         if brightness < 0 or brightness > 1:
             raise ValueError('Brightness should be between 0.0 and 1.0')
 
-        for x in range(self._light_count * PIXELS_PER_LIGHT):
+        for x in range(self._light_count * self._pixels_per_light):
             self._pixels[x][3] = int(float(MAX_BRIGHTNESS) * brightness) & 0b11111

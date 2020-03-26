@@ -41,10 +41,10 @@ def get_device(descriptor):
         output_type = dsc[0]
         output_options = dsc[1:]
 
-        if output_type == "GPIO":
+        if output_type in ["GPIO", "APA102"]:
             from .gpio import PlasmaGPIO
             return PlasmaGPIO, PlasmaGPIO.parse_options(output_options)
-        if output_type == "SERIAL":
+        if output_type in ["USB", "SERIAL"]:
             from .usb import PlasmaSerial
             return PlasmaSerial, PlasmaSerial.parse_options(output_options)
         if output_type == "WS281X":

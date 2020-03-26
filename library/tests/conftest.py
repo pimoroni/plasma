@@ -11,6 +11,25 @@ import pathlib
 import tempfile
 
 
+@pytest.fixture(scope='function', autouse=True)
+def cleanup_plasma():
+    """This fixture removes all plasma modules from sys.modules.
+
+    This ensures that each module is fully re-imported, along with
+    the fixtures for serial, etc, for each test function.
+
+    """
+
+    yield None
+    to_delete = []
+    for module in sys.modules:
+        if module.startswith('plasma'):
+            to_delete.append(module)
+
+    for module in to_delete:
+        del sys.modules[module]
+
+
 @pytest.fixture(scope='function', autouse=False)
 def GPIO():
     """Mock RPi.GPIO module."""
@@ -40,6 +59,8 @@ def rpi_ws281x():
     """Mock rpi_ws281x module."""
 
     rpi_ws281x = mock.MagicMock()
+    # Fake the WS2812_STRIP constant that's loaded into the strip_types dict
+    rpi_ws281x.ws.WS2812_STRIP = 0
     sys.modules['rpi_ws281x'] = rpi_ws281x
     yield rpi_ws281x
     del sys.modules['rpi_ws281x']
@@ -49,24 +70,25 @@ def rpi_ws281x():
 def config_file():
     """Temporary config file."""
     file = tempfile.NamedTemporaryFile(delete=False)
-    file.write(b"""strip:
-pixels: 100
+    file.write(b"""pixels: 100
 devices:
     WS281X:
         pixels: 30
+        pixels_per_light: 1
         offset: 0
         gpio_pin: 1
         strip_type: WS2812
     APA102:
         pixels: 30
+        pixels_per_light: 1
         offset: 30
         gpio_data: 10
         gpio_clock: 11
     SERIAL:
         pixels: 40
+        pixels_per_light: 1
         offset: 60
-        gpio_data: 10
-        gpio_clock: 11
+        port: /dev/ttyAMA0
 """)
     file.flush()
     yield pathlib.Path(file.name)

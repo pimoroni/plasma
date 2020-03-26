@@ -11,7 +11,7 @@ def test_serial_setup(serial):
     serial.Serial.assert_called_once_with("/dev/ttyAMA0", baudrate=8000)
 
 
-def test_serial_parse_options():
+def test_serial_parse_options(serial):
     from plasma.serial import PlasmaSerial
 
     options = PlasmaSerial.parse_options(["/dev/ttyAMA0"])
