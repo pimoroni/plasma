@@ -1,5 +1,5 @@
+"""Plasma: Light FX Sequencer."""
 import time
-from .plugins import Solid
 
 
 class Sequence(object):
@@ -13,33 +13,39 @@ class Sequence(object):
 
     """
 
-    def __init__(self, light_count, pixels_per_light=1):
+    def __init__(self, pixel_count):
         """Initialise PlasmaFX Sequence.
 
-        :param light_count: Number of logical "lights" in the sequence
-        :param pixels_per_light: Number of actual pixels in each light
+        :param pixel_count: Number of individual pixels in sequence
 
         """
-        self._pixels_per_light = pixels_per_light
-        self._light_count = light_count
-        self.elements = [Solid(0, 0, 0) for x in range(self._light_count)]
+        self._pixel_count = pixel_count
+        self._plugins = {}
+        self._pixels = [(0, 0, 0) for _ in range(self._pixel_count)]
 
-    def set_plugin(self, element_index, plugin):
+    def __iter__(self):
+        self.update_pixels()
+
+        for index, pixel in enumerate(self._pixels):
+            yield index, pixel
+
+    def set_plugin(self, offset, plugin):
         """Set plugin for light at index."""
-        self.elements[element_index] = plugin
+        self._plugins[offset] = plugin
 
-    def get_raw(self):
-        """Return raw pixel values for current time."""
-        delta = time.time()
-        values = []
-        for element in range(self._light_count):
-            values += self.elements[element].get_values(self._pixels_per_light, delta)
-        return values
+    def update_pixels(self, delta=None):
+        if delta is None:
+            delta = time.time()
+        for offset, plugin in self._plugins.items():
+            self._pixels[offset:offset + plugin.get_pixel_count()] = plugin.get_pixels(delta)
 
-    def get_leds(self):
-        """Return RGB tuples for each LED in the sequence."""
-        values = []
-        raw_values = self.get_raw()
-        for x in range(0, self._light_count * self._pixels_per_light * 3, 3):
-            values.append(tuple(raw_values[x:x + 3]))
-        return values
+    def get_pixels(self, delta=None):
+        """Return RGB tuples for each LED in sequence at current time.
+
+        :param delta: Time value to use, (default: time.time())
+
+        """
+        self.update_pixels(delta)
+
+        for index, pixel in enumerate(self._pixels):
+            yield index, pixel
