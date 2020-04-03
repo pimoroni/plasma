@@ -32,7 +32,6 @@ class PlasmaMatrix():
             print(output_type, output_options)
 
             pixels = output_options.get("pixels", self._pixel_count)
-            pixels_per_light = output_options.get("pixels_per_light", 1)
             offset = output_options.get("offset", 0)
 
             del output_options["pixels"]
@@ -43,7 +42,7 @@ class PlasmaMatrix():
             self._devices.append({
                 'offset': offset,
                 'type': output_type,
-                'device': output_device(pixels // pixels_per_light, **output_options)
+                'device': output_device(pixels, **output_options)
             })
 
     def get_pixel_count(self):

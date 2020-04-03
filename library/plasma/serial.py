@@ -9,25 +9,23 @@ class PlasmaSerial(Plasma):
     name = "Serial"
 
     options = {
-        'light_count': int,
-        'pixels_per_light': int,
+        'pixel_count': int,
         "port": str
     }
 
     option_order = ("port", )
 
-    def __init__(self, light_count=1, pixels_per_light=4, port='/dev/ttyAMA0', baudrate=115200):
+    def __init__(self, pixel_count=1, port='/dev/ttyAMA0', baudrate=115200):
         """Initialise Serial device.
 
-        :param light_count: Number of logical lights (or LEDs if pixels_per_light == 1)
-        :param pixels_per_light: Number of pixels (RGB) per logical light
+        :param pixel_count: Number of individual RGB LEDs
         :param port: Serial port name/path
         :param baudrate: Serial baud rate
 
         """
         self._serial_port = port
         self._serial = Serial(port, baudrate=baudrate)
-        Plasma.__init__(self, light_count, pixels_per_light=pixels_per_light)
+        Plasma.__init__(self, pixel_count)
 
     def show(self):
         """Display current buffer on LEDs."""

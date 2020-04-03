@@ -7,16 +7,16 @@ import colorsys
 from plasma import auto
 
 
-NUM_LIGHTS = 10
-PIXELS_PER_LIGHT = 4
+NUM_PIXELS = 10 * 4
 FALLOFF = 1.9
 SCAN_SPEED = 4
 
-plasma = auto(default=f"GPIO:14:15:light_count={NUM_LIGHTS}:pixels_per_light={PIXELS_PER_LIGHT}")
+plasma = auto(default=f"GPIO:14:15:pixel_count={NUM_PIXELS}")
+
+if plasma.get_pixel_count() == 1:
+    raise RuntimeError("Uh, you can't larson scan *one* pixel!?")
 
 plasma.set_clear_on_exit()
-
-print('Num pixels: {}'.format(plasma.get_pixel_count()))
 
 start_time = time.time()
 

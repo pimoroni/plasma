@@ -8,8 +8,7 @@ class PlasmaWS281X(Plasma):
     name = "WS281X"
 
     options = {
-        'light_count': int,
-        'pixels_per_light': int,
+        'pixel_count': int,
         "gpio_pin": int,
         "strip_type": str,
         "channel": int,
@@ -21,11 +20,10 @@ class PlasmaWS281X(Plasma):
 
     option_order = ("gpio_pin", "strip_type", "channel", "brightness", "freq_hz", "dma", "invert")
 
-    def __init__(self, light_count=1, pixels_per_light=1, gpio_pin=13, strip_type='WS2812', channel=1, brightness=255, freq_hz=800000, dma=10, invert=False):
+    def __init__(self, pixel_count=1, gpio_pin=13, strip_type='WS2812', channel=1, brightness=255, freq_hz=800000, dma=10, invert=False):
         """Initialise WS281X device.
 
-        :param light_count: Number of logical lights (or LEDs if pixels_per_light == 1)
-        :param pixels_per_light: Number of pixels (RGB) per logical light
+        :param pixel_count: Number of individual RGB LEDs
         :param gpio_pin: BCM GPIO pin for output signal
         :param strip_type: Strip type: one of WS2812 or SK6812
         :param channel: LED channel (0 or 1)
@@ -45,10 +43,10 @@ class PlasmaWS281X(Plasma):
                 strip_types[k] = v
 
         strip_type = strip_types[strip_type]
-        self._strip = PixelStrip(light_count, gpio_pin, freq_hz, dma, invert, brightness, channel, strip_type)
+        self._strip = PixelStrip(pixel_count, gpio_pin, freq_hz, dma, invert, brightness, channel, strip_type)
         self._strip.begin()
 
-        Plasma.__init__(self, light_count, pixels_per_light=pixels_per_light)
+        Plasma.__init__(self, pixel_count)
 
     def show(self):
         """Output the buffer."""

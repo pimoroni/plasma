@@ -74,19 +74,16 @@ def config_file():
 devices:
     WS281X:
         pixels: 30
-        pixels_per_light: 1
         offset: 0
         gpio_pin: 1
         strip_type: WS2812
     APA102:
         pixels: 30
-        pixels_per_light: 1
         offset: 30
         gpio_data: 10
         gpio_clock: 11
     SERIAL:
         pixels: 40
-        pixels_per_light: 1
         offset: 60
         port: /dev/ttyAMA0
 """)
