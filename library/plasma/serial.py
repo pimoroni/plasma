@@ -1,3 +1,4 @@
+"""Serial class for Plasma light devices over USB Serial/UART."""
 from .core import Plasma
 from serial import Serial
 

@@ -1,3 +1,4 @@
+"""Plasma multi device LED driver."""
 import pathlib
 
 __version__ = '1.0.0'
@@ -29,7 +30,6 @@ def get_device(descriptor):
     WS281X:WS2812_RGB:13:1:freq_hz=800000
 
     """
-
     path = pathlib.Path(descriptor)
     if path.is_file():
         from .matrix import PlasmaMatrix

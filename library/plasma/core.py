@@ -1,3 +1,4 @@
+"""Base class for Plasma light devices."""
 import atexit
 
 PIXELS_PER_LIGHT = 4
@@ -12,7 +13,7 @@ class Plasma():
 
     option_order = []
 
-    def __init__(self, light_count, pixels_per_light=PIXELS_PER_LIGHT):
+    def __init__(self, light_count, pixels_per_light=1):
         self._pixels_per_light = pixels_per_light
         self._light_count = light_count
         self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * self._pixels_per_light
@@ -22,7 +23,7 @@ class Plasma():
 
     @classmethod
     def parse_options(self, options):
-        """Parse plasma option string into kwargs dict."""
+        """Parse option string into kwargs dict."""
         named_options = {}
         for index, option in enumerate(options):
             if "=" in option:
@@ -54,21 +55,24 @@ class Plasma():
         self.show()
 
     def set_light_count(self, light_count):
+        """Set count of lights."""
         raise NotImplementedError
 
     def set_light_hsv(self, index, h, s, v):
+        """Set the HSV colour of an individual light in your chain."""
         raise NotImplementedError
 
     def set_pixel_hsv(self, index, h, s, v):
+        """Set the HSV colour of an individual pixel in your chain."""
         raise NotImplementedError
 
     def set_clear_on_exit(self, status=True):
         self._clear_on_exit = status
 
     def set_light(self, index, r, g, b, brightness=None):
-        """Set the RGB colour of an individual light in your Plasma chain.
+        """Set the RGB colour of an individual light in your chain.
 
-        This will set all four LEDs on the Plasma light to the same colour.
+        This will set all four LEDs on the light to the same colour.
 
         :param index: Index of the light in your chain (starting at 0)
         :param r: Amount of red: 0 to 255

@@ -1,4 +1,4 @@
-from .core import Plasma
+"""Wrapper for deprecated PlasmaUSB output device."""
 from .serial import PlasmaSerial
 
 

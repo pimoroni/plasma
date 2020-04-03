@@ -1,4 +1,4 @@
-import time
+"""Wrapper for deprecated PlasmaGPIO output device."""
 from .apa102 import PlasmaAPA102
 
 
