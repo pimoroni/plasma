@@ -9,11 +9,14 @@ MAX_BRIGHTNESS = 3
 class Plasma():
     name = ""
 
-    options = {}
+    options = {
+        'light_count': int,
+        'pixels_per_light': int,
+    }
 
     option_order = []
 
-    def __init__(self, light_count, pixels_per_light=1):
+    def __init__(self, light_count=1, pixels_per_light=1):
         self._pixels_per_light = pixels_per_light
         self._light_count = light_count
         self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * self._pixels_per_light

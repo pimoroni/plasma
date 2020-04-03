@@ -1,10 +1,26 @@
 """Plasma multi device LED driver."""
+import sys
 import pathlib
 
 __version__ = '1.0.0'
 
 
-def get_device(descriptor):
+def auto(default=None):
+    descriptor = None
+
+    if len(sys.argv) > 1:
+        descriptor = sys.argv[1]
+    elif default is not None:
+        descriptor = default
+    else:
+        raise ValueError("get_device requires a descriptor")
+
+    plasma, options = get_device(descriptor)
+
+    return plasma(**options)
+
+
+def get_device(descriptor=None):
     """Return a Plasma device class and arguments.
 
     :param descriptor: String describing device and arguments.
@@ -42,11 +58,13 @@ def get_device(descriptor):
         output_options = dsc[1:]
 
         if output_type in ["GPIO", "APA102"]:
-            from .gpio import PlasmaGPIO
-            return PlasmaGPIO, PlasmaGPIO.parse_options(output_options)
+            from .apa102 import PlasmaAPA102
+            return PlasmaAPA102, PlasmaAPA102.parse_options(output_options)
         if output_type in ["USB", "SERIAL"]:
-            from .usb import PlasmaSerial
+            from .serial import PlasmaSerial
             return PlasmaSerial, PlasmaSerial.parse_options(output_options)
         if output_type == "WS281X":
             from .ws281x import PlasmaWS281X
             return PlasmaWS281X, PlasmaWS281X.parse_options(output_options)
+
+    raise ValueError(f"Invalid descriptor: {descriptor}")

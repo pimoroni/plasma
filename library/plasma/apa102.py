@@ -6,13 +6,15 @@ class PlasmaAPA102(Plasma):
     name = "APA102"
 
     options = {
+        'light_count': int,
+        'pixels_per_light': int,
         "gpio_data": int,
         "gpio_clock": int
     }
 
     option_order = ("gpio_data", "gpio_clock")
 
-    def __init__(self, light_count, pixels_per_light=4, gpio_data=14, gpio_clock=15, gpio=None):
+    def __init__(self, light_count=1, pixels_per_light=4, gpio_data=14, gpio_clock=15, gpio=None):
         self._gpio = gpio
         if self._gpio is None:
             import RPi.GPIO as GPIO
