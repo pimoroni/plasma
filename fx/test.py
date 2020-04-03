@@ -1,20 +1,24 @@
-import plasma
+#!/usr/bin/env python3
+
+from plasma import auto
 import plasmafx
 from plasmafx import plugins
 import time
 
+
 FPS = 60
 NUM_LIGHTS = 10
+PIXELS_PER_LIGHT = 4
 
-plasma.set_light_count(10)
+plasma = auto(default=f"GPIO:14:15:light_count={NUM_LIGHTS}:pixels_per_light={PIXELS_PER_LIGHT}")
 
-sequence = plasmafx.Sequence(NUM_LIGHTS)
+sequence = plasmafx.Sequence(plasma.get_light_count(), plasma.get_pixels_per_light())
 
-for x in range(NUM_LIGHTS):
+for x in range(plasma.get_light_count()):
     sequence.set_plugin(x, plugins.FXCycle(
         speed=2,
-        spread=5,
-        offset=(360.0/NUM_LIGHTS) * x
+        spread=360.0 / plasma.get_light_count(),
+        offset=360.0 / plasma.get_light_count() * x
     ))
 
 sequence.set_plugin(0, plugins.Pulse([
