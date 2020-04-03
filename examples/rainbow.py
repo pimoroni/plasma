@@ -24,7 +24,7 @@ Press Ctrl+C to exit.
 
 """)
 
-plasma = auto(default=f'GPIO:14:15:light_count={NUM_LIGHTS}:pixels_per_light={PIXELS_PER_LIGHT}')
+plasma = auto(default=f"GPIO:14:15:light_count={NUM_LIGHTS}:pixels_per_light={PIXELS_PER_LIGHT}")
 
 
 spacing = 360.0 / 16.0
