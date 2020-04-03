@@ -77,6 +77,7 @@ class PlasmaAPA102(Plasma):
 
         for pixel in self._pixels:
             r, g, b, brightness = pixel
+            brightness = int(brightness * 31) & 0x1f
             self._write_byte(0b11100000 | brightness)
             self._write_byte(b)
             self._write_byte(g)

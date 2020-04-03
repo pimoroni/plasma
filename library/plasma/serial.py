@@ -36,8 +36,8 @@ class PlasmaSerial(Plasma):
 
         pixels = []
         for pixel in self._pixels:
-            for channel in pixel:
-                pixels += [channel]
+            r, g, b, brightness = pixel
+            pixels += [r, g, b, int(brightness * 254)]
 
         self._serial.write(sof + bytearray(pixels) + eof)
         self._serial.flush()

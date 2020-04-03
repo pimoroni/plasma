@@ -2,8 +2,6 @@
 import atexit
 
 PIXELS_PER_LIGHT = 4
-DEFAULT_BRIGHTNESS = 3
-MAX_BRIGHTNESS = 3
 
 
 class Plasma():
@@ -27,7 +25,7 @@ class Plasma():
         """
         self._pixels_per_light = pixels_per_light
         self._light_count = light_count
-        self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * self._pixels_per_light
+        self._pixels = [[0, 0, 0, 1.0]] * light_count * self._pixels_per_light
         self._clear_on_exit = False
 
         atexit.register(self.atexit)
@@ -53,6 +51,10 @@ class Plasma():
     def get_light_count(self):
         """Get the count of individual lights."""
         return self._light_count
+
+    def get_pixels_per_light(self):
+        """Get the count of pixels per light."""
+        return self._pixels_per_light
 
     def show(self):
         """Display changes."""
@@ -117,9 +119,8 @@ class Plasma():
 
         """
         r, g, b, brightness = self._pixels[x]
-        brightness /= float(MAX_BRIGHTNESS)
 
-        return r, g, b, round(brightness, 3)
+        return r, g, b, brightness
 
     def set_pixel(self, x, r, g, b, brightness=None):
         """Set the RGB value, and optionally brightness, of a single pixel.
@@ -133,12 +134,12 @@ class Plasma():
         :param brightness: Brightness: 0.0 to 1.0 (default around 0.2)
 
         """
+        r, g, b = [int(c) & 0xff for c in (r, g, b)]
+
         if brightness is None:
             brightness = self._pixels[x][3]
-        else:
-            brightness = int(float(MAX_BRIGHTNESS) * brightness) & 0b11111
 
-        self._pixels[x] = [int(r) & 0xff, int(g) & 0xff, int(b) & 0xff, brightness]
+        self._pixels[x] = [r, g, b, brightness]
 
     def clear(self):
         """Clear the pixel buffer."""
@@ -155,4 +156,4 @@ class Plasma():
             raise ValueError('Brightness should be between 0.0 and 1.0')
 
         for x in range(self._light_count * self._pixels_per_light):
-            self._pixels[x][3] = int(float(MAX_BRIGHTNESS) * brightness) & 0b11111
+            self._pixels[x][3] = brightness
