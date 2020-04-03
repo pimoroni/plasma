@@ -55,6 +55,12 @@ sequence.set_plugin(2 * PIXELS_PER_LIGHT, plugins.Spin(
     ],
 speed=0.1))
 
+# Keybow hanging off the end
+if plasma.get_pixel_count() == 31:
+    sequence.set_plugin(28, plugins.FXCycle(1, offset=0))
+    sequence.set_plugin(29, plugins.FXCycle(1, offset=120))
+    sequence.set_plugin(30, plugins.FXCycle(1, offset=240))
+
 try:
     while True:
         plasma.set_sequence(sequence)
