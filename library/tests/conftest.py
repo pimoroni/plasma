@@ -93,3 +93,21 @@ devices:
     file.flush()
     yield pathlib.Path(file.name)
     file.close()
+
+
+@pytest.fixture(scope='function', autouse=False)
+def argv():
+    """Replace sys.argv to avoid feeding Plasma auto the test args."""
+    argv = sys.argv
+    sys.argv = []
+    yield
+    sys.argv = argv
+
+
+@pytest.fixture(scope='function', autouse=False)
+def argv_valid():
+    """Replace sys.argv to avoid feeding Plasma auto the test args."""
+    argv = sys.argv
+    sys.argv = ["", "APA102:14:15"]
+    yield
+    sys.argv = argv
