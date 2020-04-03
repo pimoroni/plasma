@@ -1,7 +1,7 @@
 import pytest
 
 
-def test_auto_apa102(argv, gpio):
+def test_auto_apa102(argv, GPIO):
     from plasma import auto
     from plasma.apa102 import PlasmaAPA102
 
@@ -16,7 +16,7 @@ def test_get_device_raises_valueerror(argv):
         auto()
 
 
-def test_get_device_from_argv(argv_valid, gpio):
+def test_get_device_from_argv(argv_valid, GPIO):
     from plasma import auto
     from plasma.apa102 import PlasmaAPA102
 
