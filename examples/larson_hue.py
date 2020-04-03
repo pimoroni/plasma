@@ -3,28 +3,22 @@
 import math
 import time
 import colorsys
-import sys
 
-import plasma
+from plasma import auto
+
 
 NUM_LIGHTS = 10
+PIXELS_PER_LIGHT = 4
 FALLOFF = 1.9
 SCAN_SPEED = 4
 
-
-start_time = time.time()
-
-if len(sys.argv) > 1:
-    from plasma import get_device
-    Plasma, args = get_device(sys.argv[1])
-    plasma = Plasma(NUM_LIGHTS, **args)
-else:
-    from plasma.gpio import PlasmaGPIO
-    plasma = PlasmaGPIO(NUM_LIGHTS, 14, 15)
+plasma = auto(default=f'GPIO:14:15:light_count={NUM_LIGHTS}:pixels_per_light={PIXELS_PER_LIGHT}')
 
 plasma.set_clear_on_exit()
 
 print('Num pixels: {}'.format(plasma.get_pixel_count()))
+
+start_time = time.time()
 
 while True:
     delta = (time.time() - start_time)

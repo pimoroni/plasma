@@ -2,34 +2,29 @@
 
 import colorsys
 import time
-import sys
 
 
 NUM_LIGHTS = 10
+PIXELS_PER_LIGHT = 4  # Original Plasma light boards have 4 pixels per light
 
 
 print("""rainbow.py - Display a rainbow on Plasma lights
 
 Optionally supply a device descriptor to use Plasma USB Serial vs GPIO:
 
-./rainbow.py SERIAL:/dev/ttyACM0
+./rainbow.py SERIAL:/dev/ttyACM0:light_count=10
 
 Or your own choice of GPIO pins (Data/Clock):
 
-./rainbow.py GPIO:14:15
+./rainbow.py GPIO:14:15:light_count=10
 
 Press Ctrl+C to exit.
 
 """)
 
+from plasma import auto
 
-if len(sys.argv) > 1:
-    from plasma import get_device
-    Plasma, args = get_device(sys.argv[1])
-    plasma = Plasma(NUM_LIGHTS, **args)
-else:
-    from plasma.gpio import PlasmaGPIO
-    plasma = PlasmaGPIO(NUM_LIGHTS, 14, 15)
+plasma = auto(default=f'GPIO:14:15:light_count={NUM_LIGHTS}:pixels_per_light={PIXELS_PER_LIGHT}')
 
 
 spacing = 360.0 / 16.0
