@@ -1,8 +1,11 @@
+"""Plasma support for APA102 style pixels."""
 import time
 from .core import Plasma
 
 
 class PlasmaAPA102(Plasma):
+    """Plasma support for APA102 style pixels."""
+
     name = "APA102"
 
     options = {
@@ -15,6 +18,15 @@ class PlasmaAPA102(Plasma):
     option_order = ("gpio_data", "gpio_clock")
 
     def __init__(self, light_count=1, pixels_per_light=4, gpio_data=14, gpio_clock=15, gpio=None):
+        """Initialise an APA102 device.
+
+        :param light_count: Number of logical lights (or LEDs if pixels_per_light == 1)
+        :param pixels_per_light: Number of pixels (RGB) per logical light
+        :param gpio_data: BCM pin for data
+        :param gpio_clock: BCM pin for clock
+        :param gpio: Optional GPIO back-end, should be RPi.GPIO compatible
+
+        """
         self._gpio = gpio
         if self._gpio is None:
             import RPi.GPIO as GPIO
@@ -24,9 +36,6 @@ class PlasmaAPA102(Plasma):
         self._gpio_clock = gpio_clock
         self._gpio_is_setup = False
         Plasma.__init__(self, light_count, pixels_per_light=pixels_per_light)
-
-    def use_pins(self, gpio_data, gpio_clock):
-        raise NotImplementedError
 
     def _write_byte(self, byte):
         for x in range(8):

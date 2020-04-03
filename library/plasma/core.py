@@ -7,6 +7,8 @@ MAX_BRIGHTNESS = 3
 
 
 class Plasma():
+    """Base class for Plasma light devices."""
+
     name = ""
 
     options = {
@@ -17,6 +19,12 @@ class Plasma():
     option_order = []
 
     def __init__(self, light_count=1, pixels_per_light=1):
+        """Initialise Plasma device.
+
+        :param light_count: Number of logical lights (or LEDs if pixels_per_light == 1)
+        :param pixels_per_light: Number of pixels (RGB) per logical light
+
+        """
         self._pixels_per_light = pixels_per_light
         self._light_count = light_count
         self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * self._pixels_per_light
@@ -70,6 +78,7 @@ class Plasma():
         raise NotImplementedError
 
     def set_clear_on_exit(self, status=True):
+        """Set if the pixel strip should be cleared upon program exit."""
         self._clear_on_exit = status
 
     def set_light(self, index, r, g, b, brightness=None):

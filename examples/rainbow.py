@@ -3,6 +3,8 @@
 import colorsys
 import time
 
+from plasma import auto
+
 
 NUM_LIGHTS = 10
 PIXELS_PER_LIGHT = 4  # Original Plasma light boards have 4 pixels per light
@@ -21,8 +23,6 @@ Or your own choice of GPIO pins (Data/Clock):
 Press Ctrl+C to exit.
 
 """)
-
-from plasma import auto
 
 plasma = auto(default=f'GPIO:14:15:light_count={NUM_LIGHTS}:pixels_per_light={PIXELS_PER_LIGHT}')
 

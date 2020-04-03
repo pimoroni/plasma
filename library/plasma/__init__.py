@@ -6,6 +6,12 @@ __version__ = '1.0.0'
 
 
 def auto(default=None):
+    """Return a Plasma device instance.
+
+    Will try to get arguments from command-line,
+    otherwise falling back to supplied defaults.
+
+    """
     descriptor = None
 
     if len(sys.argv) > 1:

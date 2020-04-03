@@ -1,9 +1,17 @@
+"""Combine multiple LED strip types into a single logical strip."""
 import pathlib
 import yaml
 
 
 class PlasmaMatrix():
+    """Combine multiple LED strip types into a single logical strip."""
+
     def __init__(self, config_file=None):
+        """Initialise a matrix.
+
+        :param config_file: Path to yml configuration file
+
+        """
         self._devices = []
 
         if type(config_file) is str:
