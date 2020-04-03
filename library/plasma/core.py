@@ -76,6 +76,11 @@ class Plasma():
         for x in range(self._pixel_count):
             self.set_pixel(x, r, g, b, brightness)
 
+    def set_sequence(self, sequence):
+        """Set RGB values from a Plasma FX sequence."""
+        for index, rgb in sequence:
+            self.set_pixel(index, *rgb)
+
     def get_pixel(self, x):
         """Get the RGB and brightness value of a specific pixel.
 
