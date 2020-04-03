@@ -69,6 +69,7 @@ class PlasmaMatrix():
 
     def get_output_device(self, output_type):
         """Get output class by name."""
+        output_type = output_type.upper()
         if output_type in ["GPIO", "APA102"]:
             from .gpio import PlasmaGPIO
             return PlasmaGPIO
@@ -78,6 +79,7 @@ class PlasmaMatrix():
         if output_type == "WS281X":
             from .ws281x import PlasmaWS281X
             return PlasmaWS281X
+        raise ValueError(f"Invalid output type {output_type}!")
 
     def set_light(self, index, r, g, b, brightness=None):
         """Set the RGB colour of an individual light in your matrix."""
@@ -87,6 +89,10 @@ class PlasmaMatrix():
         """Set the RGB value and optionally brightness of all pixels."""
         for d in self._devices:
             d.get('device').set_all(r, g, b, brightness)
+
+    def set_sequence(self, sequence):
+        for index, led in sequence:
+            self.set_pixel(index, *led)
 
     def get_pixel(self, x):
         """Get the RGB and brightness value of a specific pixel."""
