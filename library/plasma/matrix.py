@@ -8,7 +8,7 @@ class PlasmaMatrix():
 
         if type(config_file) is str:
             config_file = pathlib.Path(config_file)
-        
+
         if not config_file.is_file():
             raise ValueError(f"Could not find {config_file}")
 
@@ -19,8 +19,6 @@ class PlasmaMatrix():
                 raise ValueError(f"Config missing required setting: '{required}'")
 
         self._pixel_count = int(self._config["pixels"])
-
-        self._pixels = [[0, 0, 0, 3]] * self._pixel_count
 
         for output_type, output_options in self._config["devices"].items():
             print(output_type, output_options)
@@ -36,6 +34,7 @@ class PlasmaMatrix():
 
             self._devices.append({
                 'offset': offset,
+                'type': output_type,
                 'device': output_device(pixels // pixels_per_light, **output_options)
             })
 
@@ -46,6 +45,20 @@ class PlasmaMatrix():
     def get_device_count(self):
         """Get the count of output devices."""
         return len(self._devices)
+
+    def get_device(self, index):
+        """Get a device by index or type.
+
+        If a string (type) is given, returns first device of type.
+
+        """
+        if type(index) == str:
+            for d in self._devices:
+                if d.get('type') == index:
+                    return d.get('device')
+        if type(index) == int:
+            return self._devices[index].get('device')
+        raise ValueError(f"Invalid device index {index}")
 
     def get_output_device(self, output_type):
         """Get output class by name."""
@@ -59,6 +72,35 @@ class PlasmaMatrix():
             from .ws281x import PlasmaWS281X
             return PlasmaWS281X
 
+    def set_light(self, index, r, g, b, brightness=None):
+        """Set the RGB colour of an individual light in your matrix."""
+        raise NotImplementedError("Use get_device(index).set_light()")
+
+    def set_all(self, r, g, b, brightness=None):
+        """Set the RGB value and optionally brightness of all pixels."""
+        for d in self._devices:
+            d.get('device').set_all(r, g, b, brightness)
+
+    def get_pixel(self, x):
+        """Get the RGB and brightness value of a specific pixel."""
+        for d in self._devices:
+            device = d.get('device')
+            offset = d.get('offset')
+            count = device.get_pixel_count()
+
+            if x >= offset and x < offset + count:
+                return device.get_pixel(x - offset)
+
+    def set_pixel(self, x, r, g, b, brightness=None):
+        """Set the RGB value, and optionally brightness, of a single pixel."""
+        for d in self._devices:
+            device = d.get('device')
+            offset = d.get('offset')
+            count = device.get_pixel_count()
+
+            if x >= offset and x < offset + count:
+                device.set_pixel(x - offset, r, g, b)
+
     def show(self):
         """Display lights across devices.
 
@@ -67,9 +109,4 @@ class PlasmaMatrix():
 
         """
         for d in self._devices:
-            device = d.get('device')
-            offset = d.get('offset')
-            for x in range(device.get_pixel_count()):
-                r, g, b, br = self._pixels[offset + x]
-                device.set_pixel(x, r, g, b)
-            device.show()
+            d.get('device').show()
