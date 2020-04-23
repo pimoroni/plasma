@@ -1,0 +1,15 @@
+pixels: 50
+devices:
+    WS281X_B:
+        type: WS281X
+        strip_type: WS2812
+        gpio_pin: 12
+        pixels: 25
+        offset: 0
+    WS281X_A:
+        type: WS281X
+        strip_type: WS2812
+        gpio_pin: 13
+        pixels: 25
+        offset: 25
+
