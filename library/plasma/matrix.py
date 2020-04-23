@@ -12,7 +12,7 @@ class PlasmaMatrix():
         :param config_file: Path to yml configuration file
 
         """
-        self._devices = []
+        self._devices = {}
 
         if type(config_file) is str:
             config_file = pathlib.Path(config_file)
@@ -28,22 +28,22 @@ class PlasmaMatrix():
 
         self._pixel_count = int(self._config["pixels"])
 
-        for output_type, output_options in self._config["devices"].items():
-            print(output_type, output_options)
-
+        for output_name, output_options in self._config["devices"].items():
+            output_type = output_options.get("type")
             pixels = output_options.get("pixels", self._pixel_count)
             offset = output_options.get("offset", 0)
 
+            del output_options["type"]
             del output_options["pixels"]
             del output_options["offset"]
 
             output_device = self.get_output_device(output_type)
 
-            self._devices.append({
+            self._devices[output_name] = {
                 'offset': offset,
                 'type': output_type,
                 'device': output_device(pixels, **output_options)
-            })
+            }
 
     def get_pixel_count(self):
         """Get the count of pixels."""
@@ -54,17 +54,21 @@ class PlasmaMatrix():
         return len(self._devices)
 
     def get_device(self, index):
-        """Get a device by index or type.
+        """Get a device by name or type.
 
-        If a string (type) is given, returns first device of type.
+        If a string (type) is given, it will try to find a device with that name.
+
+        Otherwise returns first device of that type.
 
         """
+        if index in self._devices.keys():
+            return self._devices[index].get('device')
+
         if type(index) == str:
-            for d in self._devices:
+            for n, d in self._devices.items():
                 if d.get('type') == index:
                     return d.get('device')
-        if type(index) == int:
-            return self._devices[index].get('device')
+
         raise ValueError(f"Invalid device index {index}")
 
     def get_output_device(self, output_type):
@@ -87,16 +91,17 @@ class PlasmaMatrix():
 
     def set_all(self, r, g, b, brightness=None):
         """Set the RGB value and optionally brightness of all pixels."""
-        for d in self._devices:
+        for n, d in self._devices.items():
             d.get('device').set_all(r, g, b, brightness)
 
     def set_sequence(self, sequence):
+        """Set all LEDs from a buffer of individual colours."""
         for index, led in sequence:
             self.set_pixel(index, *led)
 
     def get_pixel(self, x):
         """Get the RGB and brightness value of a specific pixel."""
-        for d in self._devices:
+        for n, d in self._devices.items():
             device = d.get('device')
             offset = d.get('offset')
             count = device.get_pixel_count()
@@ -106,7 +111,7 @@ class PlasmaMatrix():
 
     def set_pixel(self, x, r, g, b, brightness=None):
         """Set the RGB value, and optionally brightness, of a single pixel."""
-        for d in self._devices:
+        for n, d in self._devices.items():
             device = d.get('device')
             offset = d.get('offset')
             count = device.get_pixel_count()
@@ -121,5 +126,5 @@ class PlasmaMatrix():
         from the buffer starting from the specified offset.
 
         """
-        for d in self._devices:
+        for n, d in self._devices.items():
             d.get('device').show()

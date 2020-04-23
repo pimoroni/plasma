@@ -40,9 +40,9 @@ def test_matrix_get_device(config_file, GPIO, rpi_ws281x, serial):
     assert plasma.get_device("APA102").get_pixel(0) == (0, 255, 0, 1.0)
     assert plasma.get_device("SERIAL").get_pixel(0) == (0, 0, 255, 1.0)
 
-    assert plasma.get_device(0).get_pixel(0) == (255, 0, 0, 1.0)
-    assert plasma.get_device(1).get_pixel(0) == (0, 255, 0, 1.0)
-    assert plasma.get_device(2).get_pixel(0) == (0, 0, 255, 1.0)
+    assert plasma.get_device("TABLE").get_pixel(0) == (255, 0, 0, 1.0)
+    assert plasma.get_device("WALL").get_pixel(0) == (0, 255, 0, 1.0)
+    assert plasma.get_device("BACKLIGHT").get_pixel(0) == (0, 0, 255, 1.0)
 
 
 def test_matrix_show(config_file, GPIO, rpi_ws281x, serial):

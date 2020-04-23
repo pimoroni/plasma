@@ -72,17 +72,20 @@ def config_file():
     file = tempfile.NamedTemporaryFile(delete=False)
     file.write(b"""pixels: 100
 devices:
-    WS281X:
+    TABLE:
+        type: WS281X
         pixels: 30
         offset: 0
         gpio_pin: 1
         strip_type: WS2812
-    APA102:
+    WALL:
+        type: APA102
         pixels: 30
         offset: 30
         gpio_data: 10
         gpio_clock: 11
-    SERIAL:
+    BACKLIGHT:
+        type: SERIAL
         pixels: 40
         offset: 60
         port: /dev/ttyAMA0
