@@ -1,0 +1,14 @@
+pixels: 50
+devices:
+    APA102_A:
+        type: APA102
+        gpio_data: 10
+        gpio_clock: 11
+        pixels: 25
+        offset: 0
+    APA102_B:
+        type: APA102
+        gpio_data: 20
+        gpio_clock: 21
+        pixels: 25
+        offset: 25
