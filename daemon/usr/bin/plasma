@@ -64,6 +64,7 @@ def main():
     global PID_FILE
     global LOG_FILE
     global ERR_FILE
+    global pipename
 
     opts = options()
 
@@ -144,7 +145,13 @@ def main():
 
 
 def load_pattern(pattern_name):
-    pattern_file = os.path.join(PATTERNS, "{}.png".format(pattern_name))
+    if (pattern_name == "default"):
+        pattern_file = os.path.join(PATTERNS, "default-{}.png".format(pipename))
+        if not os.path.isfile(pattern_file):
+            pattern_file = os.path.join(PATTERNS, "{}.png".format(pattern_name))
+    else:
+        pattern_file = os.path.join(PATTERNS, "{}.png".format(pattern_name))
+
     if os.path.isfile(pattern_file):
         r = png.Reader(file=open(pattern_file, 'rb'))
         pattern_w, pattern_h, pattern, pattern_meta = r.read()
