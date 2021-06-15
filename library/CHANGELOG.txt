@@ -1,3 +1,13 @@
+2.0.0
+-----
+
+* Port to Python >=3.7, drop Python 2.7 support
+* Significant refactoring and restructuring
+* Config file support for configuring LED types/relationships
+* WS382X support
+* Chip-Select support for APA102
+* PlasmaMatrix to combine multiple output devices
+
 1.0.0
 -----
 
