@@ -1,31 +1,62 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-if [ "$1" == "--help" ] || [ "$1" == "" ]; then
-	echo -e "\nUsage:\n    $0 <r> <g> <b> - Display an RGB colour (all values 0-255)\n    $0 <image name> - Display an image-based animation from /etc/plasma\n    $0 fps <fps> - Set the update framerate\n    $0 --install <filename> - Install an animation file\n    $0 --list - List available animations\n"
-	exit 0
-fi
+import argparse
+import pathlib
+import sys
 
-if [ "$1" == "--list" ]; then
-    echo -e "\nAvailable patterns:"
-    for f in /etc/plasma/*.png; do
-	name=$(basename -- "$f")
-        name="${name%.*}"
-        echo -e "    $name"
-    done
-    echo -e ""
-    exit 0
-fi
+ROOT = pathlib.Path('/etc/plasma')
+FIFO = pathlib.Path('/tmp/plasma')
 
-if [ "$1" == "--install" ]; then
-	if [ -f "$2" ]; then
-		echo -e "\nInstalling $2 into /etc/plasma\n"
-		cp $2 /etc/plasma/
-		exit 0
-	fi
-fi
 
-if [ -p "/tmp/plasma" ]; then
-	echo "$@" > /tmp/plasma
-else
-	echo -e "\n/tmp/plasma not found.\nPlasma daemon not running?\n"
-fi
+def Color(value):
+    try:
+        return int(value)
+    except ValueError:
+        return int(value, 16)
+
+
+def get_patterns():
+    return ROOT.glob('*.png')
+
+
+def valid_patterns():
+    for pattern in get_patterns():
+        yield pattern.stem
+
+
+def open_fifo(filename):
+    if filename.exists():
+        return open(filename, 'wb')
+    else:
+        raise RuntimeError(f"FIFO {filename} does not exit! Is plasma running?")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--install', type=pathlib.Path, help='Install an animation file')
+    parser.add_argument('--list', action='store_true', help='List available animations')
+    parser.add_argument('--colour', nargs=3, type=Color, help='Display an RGB colour (all values 0-255)')
+    parser.add_argument('--fps', type=int, help='Set the update framerate')
+    parser.add_argument('--pattern', type=str, help='Display an image-based aniamtion from /etc/plasma', choices=list(valid_patterns()))
+
+    args = parser.parse_args()
+
+    if args.list:
+        print("Available patterns:")
+        for pattern in get_patterns():
+            print(f"{pattern.stem:30} {pattern}")
+        sys.exit(0)
+
+    if args.pattern:
+        print(f"Setting pattern to {args.pattern}")
+        with open_fifo(FIFO) as fifo:
+            fifo.write(f"{args.pattern}\n".encode("utf-8"))
+            fifo.flush()
+
+    if args.colour:
+        r, g, b = args.colour
+        print(f"Setting colour to {r}, {g}, {b}")
+        with open_fifo(FIFO) as fifo:
+            fifo.write(f"{r} {g} {b}\n".encode("utf-8"))
+            fifo.flush()
+

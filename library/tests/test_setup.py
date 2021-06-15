@@ -1,17 +1,14 @@
 """Test Plasma basic initialisation."""
 import mock
-import sys
-from tools import GPIO
 
 
-def test_setup():
+def test_legacy_setup(GPIO):
     """Test init succeeds and GPIO pins are setup."""
-    gpio = GPIO()
-    sys.modules['RPi'] = mock.Mock()
-    sys.modules['RPi'].GPIO = gpio
-    sys.modules['RPi.GPIO'] = gpio
     from plasma import legacy as plasma
     plasma.show()
 
-    assert gpio.pin_modes[plasma.DAT] == gpio.OUT
-    assert gpio.pin_modes[plasma.CLK] == gpio.OUT
+    GPIO.setmode.assert_called_once_with(GPIO.BCM)
+    GPIO.setup.assert_has_calls([
+        mock.call(plasma.DAT, GPIO.OUT),
+        mock.call(plasma.CLK, GPIO.OUT)
+    ])

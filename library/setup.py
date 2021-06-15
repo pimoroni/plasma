@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Copyright (c) 2016 Pimoroni.
+Copyright (c) 2020 Pimoroni.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -22,32 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup
 
-classifiers = ['Development Status :: 5 - Production/Stable',
-               'Operating System :: POSIX :: Linux',
-               'License :: OSI Approved :: MIT License',
-               'Intended Audience :: Developers',
-               'Programming Language :: Python :: 2.6',
-               'Programming Language :: Python :: 2.7',
-               'Programming Language :: Python :: 3',
-               'Topic :: Software Development',
-               'Topic :: System :: Hardware']
-
-setup(
-    name='plasmalights',
-    version='1.0.0',
-    author='Philip Howard',
-    author_email='phil@pimoroni.com',
-    description="""Python library for driving Pimoroni Plasma!""",
-    long_description=open('README.rst').read() + '\n' + open('CHANGELOG.txt').read(),
-    license='MIT',
-    keywords='Raspberry Pi LED',
-    url='http://www.pimoroni.com',
-    classifiers=classifiers,
-    packages=['plasma'],
-    install_requires=['RPi.GPIO']
-)
+setup()

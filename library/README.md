@@ -84,3 +84,17 @@ sudo python3 setup.py install
 * Guides and tutorials - https://learn.pimoroni.com/plasma
 * Function reference - http://docs.pimoroni.com/plasma/
 * Get help - http://forums.pimoroni.com/c/support
+
+## Changelog
+
+1.0.0
+-----
+
+* API refactor, use plasma.legacy for old API
+* USB support for Picade Player X
+
+0.0.1
+-----
+
+* Initial Release
+

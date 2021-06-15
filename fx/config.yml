@@ -1,0 +1,12 @@
+pixels: 31
+devices:
+    serial:
+        pixels: 28
+        offset: 0
+        port: /dev/ttyACM0
+    apa102:
+        pixels: 3
+        offset: 28
+        gpio_data: 10
+        gpio_clock: 11
+        gpio_cs: 8

@@ -1,30 +1,24 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import math
 import time
 import colorsys
-import sys
 
-import plasma
+from plasma import auto
 
-NUM_LIGHTS = 10
+
+NUM_PIXELS = 10 * 4
 FALLOFF = 1.9
 SCAN_SPEED = 4
 
+plasma = auto(default=f"GPIO:14:15:pixel_count={NUM_PIXELS}")
 
-start_time = time.time()
-
-if len(sys.argv) > 1:
-    from plasma import get_device
-    Plasma, args = get_device(sys.argv[1])
-    plasma = Plasma(NUM_LIGHTS, **args)
-else:
-    from plasma.gpio import PlasmaGPIO
-    plasma = PlasmaGPIO(NUM_LIGHTS, 14, 15)
+if plasma.get_pixel_count() == 1:
+    raise RuntimeError("Uh, you can't larson scan *one* pixel!?")
 
 plasma.set_clear_on_exit()
 
-print('Num pixels: {}'.format(plasma.get_pixel_count()))
+start_time = time.time()
 
 while True:
     delta = (time.time() - start_time)

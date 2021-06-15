@@ -1,41 +1,51 @@
+"""Plasma: Light FX Sequencer."""
 import time
 
-ELEMENT_LED_COUNT = 4
-
-class Plugin(object):
-    """PlasmaFX Plugin.
-
-    A PlasmaFX plugin is responsible for the 4 lights on
-    a single Plasma light board.
-
-    """
-    def get_values(self):
-        return
 
 class Sequence(object):
     """PlasmaFX Sequence.
 
     A PlasmaFX sequence is responsible for a sequence of
-    Plasma light boards.
+    Plasma light groupings.
+
+    LEDs can be grouped into "lights" such as the 4 on a Plasma PCB
+    or the 12+ on an Adafruit NeoPixel ring.
 
     """
-    def __init__(self, element_count):
-        self.element_count = element_count
-        self.elements = [None for x in range(element_count)]
 
-    def set_plugin(self, element_index, plugin):
-        self.elements[element_index] = plugin
+    def __init__(self, pixel_count):
+        """Initialise PlasmaFX Sequence.
 
-    def get_raw(self):
-        delta = time.time()
-        values = []
-        for element in range(self.element_count):
-            values += self.elements[element].get_values(delta)
-        return values
+        :param pixel_count: Number of individual pixels in sequence
 
-    def get_leds(self):
-        values = []
-        raw_values = self.get_raw()
-        for x in range(0, self.element_count * ELEMENT_LED_COUNT * 3, 3):
-            values.append(tuple(raw_values[x:x+3]))
-        return values
+        """
+        self._pixel_count = pixel_count
+        self._plugins = {}
+        self._pixels = [(0, 0, 0) for _ in range(self._pixel_count)]
+
+    def __iter__(self):
+        self.update_pixels()
+
+        for index, pixel in enumerate(self._pixels):
+            yield index, pixel
+
+    def set_plugin(self, offset, plugin):
+        """Set plugin for light at index."""
+        self._plugins[offset] = plugin
+
+    def update_pixels(self, delta=None):
+        if delta is None:
+            delta = time.time()
+        for offset, plugin in self._plugins.items():
+            self._pixels[offset:offset + plugin.get_pixel_count()] = plugin.get_pixels(delta)
+
+    def get_pixels(self, delta=None):
+        """Return RGB tuples for each LED in sequence at current time.
+
+        :param delta: Time value to use, (default: time.time())
+
+        """
+        self.update_pixels(delta)
+
+        for index, pixel in enumerate(self._pixels):
+            yield index, pixel
