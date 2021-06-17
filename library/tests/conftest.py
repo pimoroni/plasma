@@ -95,6 +95,23 @@ devices:
     file.close()
 
 
+
+@pytest.fixture(scope='function', autouse=False)
+def config_file_default_pixels_and_offset():
+    """Temporary config file."""
+    file = tempfile.NamedTemporaryFile(delete=False)
+    file.write(b"""pixels: 100
+devices:
+    TABLE:
+        type: APA102
+        gpio_data: 10
+        gpio_clock: 11
+""")
+    file.flush()
+    yield pathlib.Path(file.name)
+    file.close()
+
+
 @pytest.fixture(scope='function', autouse=False)
 def argv():
     """Replace sys.argv to avoid feeding Plasma auto the test args."""
