@@ -87,6 +87,14 @@ sudo python3 setup.py install
 
 ## Changelog
 
+2.0.1
+-----
+
+* New `auto()` can accept a config file path directly (for plasma daemon)
+* New `Matrix` and `Core` now accept list and dict type sequences in `set_sequence`
+* New `Matrix` config supports an "enabled" option for easy config switching
+* Bugfix `Matrix` catches KeyError when trying to `del` non-required options
+
 2.0.0
 -----
 

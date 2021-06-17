@@ -2,7 +2,7 @@
 import sys
 import pathlib
 
-__version__ = '2.0.0'
+__version__ = '2.0.1'
 
 
 def auto(default=None, descriptor=None):
