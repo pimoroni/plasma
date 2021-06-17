@@ -78,8 +78,15 @@ class Plasma():
 
     def set_sequence(self, sequence):
         """Set RGB values from a Plasma FX sequence."""
-        for index, rgb in sequence:
-            self.set_pixel(index, *rgb)
+        if type(sequence) is list:
+            for index, led in enumerate(sequence):
+                self.set_pixel(index, *led)
+        elif type(sequence) is dict:
+            for index, led in sequence.items():
+                self.set_pixel(index, *led)
+        else:
+            for index, led in sequence:
+                self.set_pixel(index, *led)
 
     def get_pixel(self, x):
         """Get the RGB and brightness value of a specific pixel.

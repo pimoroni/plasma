@@ -52,6 +52,7 @@ if __name__ == "__main__":
         with open_fifo(FIFO) as fifo:
             fifo.write(f"{args.pattern}\n".encode("utf-8"))
             fifo.flush()
+        sys.exit(0)
 
     if args.colour:
         r, g, b = args.colour
@@ -59,4 +60,7 @@ if __name__ == "__main__":
         with open_fifo(FIFO) as fifo:
             fifo.write(f"{r} {g} {b}\n".encode("utf-8"))
             fifo.flush()
+        sys.exit(0)
 
+    parser.print_help()
+    sys.exit(1)

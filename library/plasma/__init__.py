@@ -5,21 +5,20 @@ import pathlib
 __version__ = '2.0.0'
 
 
-def auto(default=None):
+def auto(default=None, descriptor=None):
     """Return a Plasma device instance.
 
     Will try to get arguments from command-line,
     otherwise falling back to supplied defaults.
 
     """
-    descriptor = None
-
-    if len(sys.argv) > 1:
-        descriptor = sys.argv[1]
-    elif default is not None:
-        descriptor = default
-    else:
-        raise ValueError("get_device requires a descriptor")
+    if descriptor is None:
+        if len(sys.argv) > 1:
+            descriptor = sys.argv[1]
+        elif default is not None:
+            descriptor = default
+        else:
+            raise ValueError("get_device requires a descriptor")
 
     plasma, options = get_device(descriptor)
 

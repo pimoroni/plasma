@@ -7,13 +7,14 @@ import os
 import sys
 import threading
 from datetime import datetime
-from optparse import OptionParser
+import argparse
 
 # Application Defaults
+CONFIG_FILE = "/etc/plasma/plasma.conf"
 PIPE_FILE = "/tmp/plasma"
 PATTERNS = "/etc/plasma/"
 FPS = 30
-LIGHTS = 10
+LIGHTS = 10  # Actual number of pixels is 4x this number
 DEBUG = False
 
 # Log & PID files
@@ -66,18 +67,18 @@ class FIFO():
 
 
 def main():
-    opts = options()
+    args = get_args()
 
-    if opts.daemonize:
+    if args.daemonize:
         fork()
 
-    from plasma import get_device
-    Plasma, args = get_device(opts.device)
-    plasma = Plasma(opts.lights, **args)
+    from plasma import auto
+
+    plasma = auto(f"GPIO:14:15:pixel_count={LIGHTS * 4}", CONFIG_FILE)
 
     log("Starting Plasma in the {daemon} with framerate {fps}fps".format(
-        daemon='background' if opts.daemonize else 'foreground',
-        fps=opts.fps))
+        daemon='background' if args.daemonize else 'foreground',
+        fps=args.fps))
 
     log("Plasma input pipe: {}".format(PIPE_FILE))
 
@@ -90,7 +91,7 @@ def main():
         alpha = pattern_meta['alpha']
         channels = 4 if alpha else 3
 
-        while not stopped.wait(1.0 / opts.fps):
+        while not stopped.wait(1.0 / args.fps):
             delta = time.time() * 60
             command = fifo.readline()
             if command is not None:
@@ -110,7 +111,7 @@ def main():
                         log("Invalid colour: {}".format(command))
                 elif len(rgb) == 2 and rgb[0] == "fps":
                     try:
-                        opts.fps = int(rgb[1])
+                        args.fps = int(rgb[1])
                         log("Framerate set to: {}fps".format(rgb[1]))
                     except ValueError:
                         log("Invalid framerate: {}".format(rgb[1]))
@@ -122,13 +123,12 @@ def main():
             if pattern is not None:
                 offset_y = int(delta % pattern_h)
                 row = pattern[offset_y]
-                for x in range(opts.lights * 4):
+                for x in range(plasma.get_pixel_count()):
                     offset_x = (x * channels) % (pattern_w * channels)
                     r, g, b = row[offset_x:offset_x + 3]
                     plasma.set_pixel(x, r, g, b)
             else:
-                for x in range(opts.lights):
-                    plasma.set_light(x, r, g, b)
+                plasma.set_all(r, g, b)
 
             plasma.show()
 
@@ -146,17 +146,15 @@ def load_pattern(pattern_name):
         return None, 0, 0, None
 
 
-def options():
-    parser = OptionParser()
-    parser.add_option("-d", "--daemonize", dest="daemonize", action="store_true", default=False,
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--daemonize", action="store_true", default=False,
                       help="run plasma as a daemon")
-    parser.add_option("-f", "--fps", action="store", dest="fps", type="int", default=FPS,
+    parser.add_argument("-f", "--fps", type=int, default=FPS,
                       help="set plasma LED update framerate")
-    parser.add_option("-l", "--lights", action="store", dest="lights", type="int", default=LIGHTS,
-                      help="set number of lights in your plasma chain")
-    parser.add_option("-o", "--device", default="GPIO:15:14",
-                      help="set output device, default is GPIO, BCM15 = Data, BCM14 = Clock")
-    return parser.parse_args()[0]
+    parser.add_argument("-c", "--config", type=str, default=CONFIG_FILE,
+                      help="path to plasma config file")
+    return parser.parse_known_args()[0]
 
 
 def fork():
@@ -184,9 +182,9 @@ def fork():
         print("Fork #2 failed: {} ({})".format(e.errno, e.strerror))
         sys.exit(1)
 
-    si = file("/dev/null", 'r')
-    so = file(LOG_FILE, 'a+')
-    se = file(ERR_FILE, 'a+', 0)
+    si = open("/dev/null", 'r')
+    so = open(LOG_FILE, 'a+')
+    se = open(ERR_FILE, 'a+')
 
     os.dup2(si.fileno(), sys.stdin.fileno())
     os.dup2(so.fileno(), sys.stdout.fileno())

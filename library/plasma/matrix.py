@@ -29,13 +29,30 @@ class PlasmaMatrix():
         self._pixel_count = int(self._config["pixels"])
 
         for output_name, output_options in self._config["devices"].items():
+            enabled = output_options.get("enabled", True)
+            if not enabled:
+                continue
+
             output_type = output_options.get("type")
             pixels = output_options.get("pixels", self._pixel_count)
             offset = output_options.get("offset", 0)
 
             del output_options["type"]
-            del output_options["pixels"]
-            del output_options["offset"]
+
+            try:
+                del output_options["enabled"]
+            except KeyError:
+                pass
+
+            try:
+                del output_options["pixels"]
+            except KeyError:
+                pass
+
+            try:
+                del output_options["offset"]
+            except KeyError:
+                pass
 
             output_device = self.get_output_device(output_type)
 
@@ -96,8 +113,15 @@ class PlasmaMatrix():
 
     def set_sequence(self, sequence):
         """Set all LEDs from a buffer of individual colours."""
-        for index, led in sequence:
-            self.set_pixel(index, *led)
+        if type(sequence) is list:
+            for index, led in enumerate(sequence):
+                self.set_pixel(index, *led)
+        elif type(sequence) is dict:
+            for index, led in sequence.items():
+                self.set_pixel(index, *led)
+        else:
+            for index, led in sequence:
+                self.set_pixel(index, *led)
 
     def get_pixel(self, x):
         """Get the RGB and brightness value of a specific pixel."""
