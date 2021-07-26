@@ -37,6 +37,7 @@ if __name__ == "__main__":
     parser.add_argument('--list', action='store_true', help='List available animations')
     parser.add_argument('--colour', nargs=3, type=Color, help='Display an RGB colour (all values 0-255)')
     parser.add_argument('--fps', type=int, help='Set the update framerate')
+    parser.add_argument('--brightness', type=float, help='Set the LED brightness')
     parser.add_argument('--pattern', type=str, help='Display an image-based aniamtion from /etc/plasma', choices=list(valid_patterns()))
 
     args = parser.parse_args()
@@ -59,6 +60,14 @@ if __name__ == "__main__":
         print(f"Setting colour to {r}, {g}, {b}")
         with open_fifo(FIFO) as fifo:
             fifo.write(f"{r} {g} {b}\n".encode("utf-8"))
+            fifo.flush()
+        sys.exit(0)
+
+    if args.brightness is not None:
+        brightness = args.brightness
+        print(f"Setting brightness to {brightness}")
+        with open_fifo(FIFO) as fifo:
+            fifo.write(f"brightness {brightness}\n".encode("utf-8"))
             fifo.flush()
         sys.exit(0)
 
