@@ -109,7 +109,7 @@ class PlasmaMatrix():
     def set_all(self, r, g, b, brightness=None):
         """Set the RGB value and optionally brightness of all pixels."""
         for n, d in self._devices.items():
-            d.get('device').set_all(r, g, b, brightness)
+            d.get('device').set_all(r, g, b, brightness=brightness)
 
     def set_sequence(self, sequence):
         """Set all LEDs from a buffer of individual colours."""
@@ -141,7 +141,7 @@ class PlasmaMatrix():
             count = device.get_pixel_count()
 
             if x >= offset and x < offset + count:
-                device.set_pixel(x - offset, r, g, b)
+                device.set_pixel(x - offset, r, g, b, brightness=brightness)
 
     def show(self):
         """Display lights across devices.

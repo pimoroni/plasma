@@ -14,6 +14,7 @@ CONFIG_FILE = "/etc/plasma/plasma.conf"
 PIPE_FILE = "/tmp/plasma"
 PATTERNS = "/etc/plasma/"
 FPS = 30
+BRIGHTNESS = 1.0
 LIGHTS = 10  # Actual number of pixels is 4x this number
 DEBUG = False
 
@@ -115,6 +116,12 @@ def main():
                         log("Framerate set to: {}fps".format(rgb[1]))
                     except ValueError:
                         log("Invalid framerate: {}".format(rgb[1]))
+                elif len(rgb) == 2 and rgb[0] == "brightness":
+                    try:
+                        args.brightness = float(rgb[1])
+                        log("Brightness set to: {}".format(args.brightness))
+                    except ValueError:
+                        log("Invalid brightness {}".format(rgb[1]))
                 else:
                     pattern, pattern_w, pattern_h, pattern_meta = load_pattern(command)
                     alpha = pattern_meta['alpha']
@@ -126,9 +133,9 @@ def main():
                 for x in range(plasma.get_pixel_count()):
                     offset_x = (x * channels) % (pattern_w * channels)
                     r, g, b = row[offset_x:offset_x + 3]
-                    plasma.set_pixel(x, r, g, b)
+                    plasma.set_pixel(x, r, g, b, brightness=args.brightness)
             else:
-                plasma.set_all(r, g, b)
+                plasma.set_all(r, g, b, brightness=args.brightness)
 
             plasma.show()
 
@@ -152,6 +159,8 @@ def get_args():
                       help="run plasma as a daemon")
     parser.add_argument("-f", "--fps", type=int, default=FPS,
                       help="set plasma LED update framerate")
+    parser.add_argument("-b", "--brightness", type=float, default=BRIGHTNESS,
+                      help="set plasma LED brightness")
     parser.add_argument("-c", "--config", type=str, default=CONFIG_FILE,
                       help="path to plasma config file")
     return parser.parse_known_args()[0]
