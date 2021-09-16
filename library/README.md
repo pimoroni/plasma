@@ -87,6 +87,11 @@ sudo python3 setup.py install
 
 ## Changelog
 
+2.0.2
+-----
+
+* Pass brightness values through plasma Matrix to underlying LED drivers
+
 2.0.1
 -----
 
