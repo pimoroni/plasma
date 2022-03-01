@@ -1,10 +1,10 @@
 # Plasma: LED Sequencing
 
-Plasma is an LED/Light sequencing suite written to harmonise a variety of LED strand/board types and interfaces into a standard API for write-once-run-anyway lighting code.
+Plasma is an LED/Light sequencing suite written to harmonise a variety of LED strand/board types and interfaces into a standard API for write-once-run-anywhere lighting code.
 
 Plasma also includes plasmad, a system daemon for sequencing light strips using PNG images to provide animation frames.
 
-[![Build Status](https://travis-ci.com/pimoroni/plasma.svg?branch=master)](https://travis-ci.com/pimoroni/plasma)
+[![Build Status](https://shields.io/github/workflow/status/pimoroni/plasma/Python%20Tests.svg)](https://github.com/pimoroni/plasma/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/pimoroni/plasma/badge.svg?branch=master)](https://coveralls.io/github/pimoroni/plasma?branch=master)
 [![PyPi Package](https://img.shields.io/pypi/v/plasmalights.svg)](https://pypi.python.org/pypi/plasmalights)
 [![Python Versions](https://img.shields.io/pypi/pyversions/plasmalights.svg)](https://pypi.python.org/pypi/plasmalights)
