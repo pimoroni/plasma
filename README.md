@@ -81,6 +81,5 @@ sudo python3 setup.py install
 
 ## Documentation & Support
 
-* Guides and tutorials - https://learn.pimoroni.com/plasma
-* Function reference - http://docs.pimoroni.com/plasma/
+* Guides and tutorials - https://learn.pimoroni.com/
 * Get help - http://forums.pimoroni.com/c/support
