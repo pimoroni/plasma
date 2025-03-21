@@ -4,7 +4,7 @@
 #define MICROPY_HW_FLASH_STORAGE_BYTES           (PICO_FLASH_SIZE_BYTES - (1408 * 1024))
 
 // Enable networking.
-#define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT     "Plasma"
+#define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT     "Plasma2040W"
 
 // Enable WiFi & PPP
 #define MICROPY_PY_NETWORK                      (1)

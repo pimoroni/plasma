@@ -14,9 +14,9 @@ jobs:
     strategy:
       matrix:
         include:
-        - name: plasma_rp2040
-        - name: plasma_w_rp2040
-        - name: plasma_w_rp2350
+        - name: plasma_2040
+        - name: plasma_stick_2040_w
+        - name: plasma_2350_w
 
     env:
       # MicroPython version will be contained in github.event.release.tag_name for releases
