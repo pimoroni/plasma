@@ -1,0 +1,2 @@
+wireless/*.py
+secrets.py

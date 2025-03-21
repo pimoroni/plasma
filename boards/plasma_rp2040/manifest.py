@@ -1,0 +1,1 @@
+include("../manifest-common.py")

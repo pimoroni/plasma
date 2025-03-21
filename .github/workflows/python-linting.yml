@@ -1,0 +1,30 @@
+name: Python Linting
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Python Linting
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Python Deps
+      run: |
+        python3 -m venv .venv
+        source .venv/bin/activate
+        python -m pip install flake8
+
+    - name: Lint MicroPython Examples
+      shell: bash
+      run: |
+        source .venv/bin/activate
+        python -m flake8 --show-source --ignore E501 examples/
+
+    - name: Lint MicroPython Modules
+      shell: bash
+      run: |
+        source .venv/bin/activate
+        python -m flake8 --show-source --ignore E501 modules/
