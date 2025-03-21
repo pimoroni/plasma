@@ -4,5 +4,9 @@
 #define MICROPY_HW_FLASH_STORAGE_BYTES          (PICO_FLASH_SIZE_BYTES - (1024 * 1024))
 
 // I2C0 (non-default)
-#define MICROPY_HW_I2C0_SCL  (21)
-#define MICROPY_HW_I2C0_SDA  (20)
+#define MICROPY_HW_I2C0_SCL                     (21)
+#define MICROPY_HW_I2C0_SDA                     (20)
+
+// There is no good SPI bus broken out on Plasma 2040
+// So disable default pins and force the user to pick
+#define MICROPY_HW_SPI_NO_DEFAULT_PINS          (1)
