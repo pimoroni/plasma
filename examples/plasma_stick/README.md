@@ -52,21 +52,16 @@ Plasma Stick has a Qw/ST (Qwiic/STEMMA QT) connector. Breakouts with Qw/ST conne
 
 - [List of breakouts currently supported in our C++/MicroPython build](https://github.com/pimoroni/pimoroni-pico#breakouts)
 
-Plasma Stick uses GP4 and GP5 for its I2C interface. You can use the constants in the shared `pimoroni` module to set up the I2C interface:
+Plasma Stick uses GP4 and GP5 for its I2C interface. These are configured as defaults so you can just:
 
 ```python
-from pimoroni_i2c import PimoroniI2C
-from pimoroni import BREAKOUT_GARDEN_I2C_PINS
-
-i2c = PimoroniI2C(**BREAKOUT_GARDEN_I2C_PINS)
+i2c = machine.I2C()
 ```
 
-Alternatively, you can specify the pin numbers directly:
+Alternatively, you can specify the pins directly:
 
 ```python
-from pimoroni_i2c import PimoroniI2C
-
-i2c = PimoroniI2C(sda=(4), scl=(5))
+i2c = machine.I2C(sda=machine.Pin(4), scl=machine.Pin(5))
 ```
 
 ## Basic Examples
