@@ -143,7 +143,7 @@ class Button:
 
 
 class RGBLED:
-    def __init__(self, r, g, b, invert=True):
+    def __init__(self, r="LED_R", g="LED_G", b="LED_B", invert=True):
         self.invert = invert
         self.led_r = PWM(Pin(r))
         self.led_r.freq(1000)
