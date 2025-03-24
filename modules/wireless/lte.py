@@ -1,9 +1,8 @@
 import time
 
 from machine import UART, Pin
-from network import PPP
-
 from micropython import const
+from network import PPP
 
 DEFAULT_PIN_RST = 35
 DEFAULT_PIN_NETLIGHT = 34

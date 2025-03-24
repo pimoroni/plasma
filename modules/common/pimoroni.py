@@ -1,6 +1,6 @@
 import time
-from machine import Pin, PWM, ADC
 
+from machine import ADC, PWM, Pin
 
 BREAKOUT_GARDEN_I2C_PINS = {"sda": 4, "scl": 5}
 PICO_EXPLORER_I2C_PINS = {"sda": 20, "scl": 21}
