@@ -1,9 +1,11 @@
-import plasma
 import math
 import time
+
 import machine
-from breakout_encoder_wheel import BreakoutEncoderWheel, CENTRE
+from breakout_encoder_wheel import CENTRE, BreakoutEncoderWheel
 from pimoroni import RGBLED
+
+import plasma
 
 """
 A simple example for controlling pulsing LED patterns with an Encoder Wheel.
