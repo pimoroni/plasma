@@ -1,9 +1,10 @@
-import plasma
-from plasma import plasma2040
-import breakout_scd41 as scd
-from pimoroni_i2c import PimoroniI2C
-from pimoroni import RGBLED
 import time
+
+import breakout_scd41 as scd
+import machine
+from pimoroni import RGBLED
+
+import plasma
 
 """
 Reads CO2 level from an SCD41 breakout...
@@ -28,16 +29,16 @@ HUE_END = 0  # red
 
 # Pick *one* LED type by uncommenting the relevant line below:
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma2040.DAT)
+led_strip = plasma.WS2812(NUM_LEDS)
 
 # APA102 / DotStar™ LEDs
-# led_strip = plasma.APA102(NUM_LEDS, 0, 0, plasma2040.DAT, plasma2040.CLK)
+# led_strip = plasma.APA102(NUM_LEDS)
 
 # set up I2C
-i2c = PimoroniI2C(plasma2040.SDA, plasma2040.SCL)
+i2c = machine.I2C()
 
 # set up onboard LED
-led = RGBLED(plasma2040.LED_R, plasma2040.LED_G, plasma2040.LED_B)
+led = RGBLED("LED_R", "LED_G", "LED_B")
 
 led.set_rgb(0, 0, 0)
 

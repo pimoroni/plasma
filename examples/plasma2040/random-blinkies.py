@@ -1,10 +1,10 @@
 # This simple example randomises LED colours and brightness for a subtly sparkly effect.
 
-import plasma
-from plasma import plasma2040
 import time
 # Random functions! randrange is for picking integers from a range, and uniform is for floats.
 from random import randrange, uniform
+
+import plasma
 
 # Set how many LEDs you have
 NUM_LEDS = 50
@@ -23,10 +23,10 @@ SPEED = 0.3
 # Pick *one* LED type by uncommenting the relevant line below:
 
 # APA102 / DotStar™ LEDs
-# led_strip = plasma.APA102(NUM_LEDS, 0, 0, plasma2040.DAT, plasma2040.CLK)
+# led_strip = plasma.APA102(NUM_LEDS)
 
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma2040.DAT)
+led_strip = plasma.WS2812(NUM_LEDS)
 
 # Start updating the LED strip
 led_strip.start()

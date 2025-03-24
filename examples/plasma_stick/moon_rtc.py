@@ -1,7 +1,9 @@
 import time
-import plasma
-from plasma import plasma_stick
+
+import machine
 from machine import RTC
+
+import plasma
 
 """
 Spooky moon simulator!
@@ -28,12 +30,11 @@ def set_pico_time():
     # the function sets the Pico's RTC from a RV3028 RTC breakout
     # to setup breakout (and set the time) run this first:
     # https://github.com/pimoroni/pimoroni-pico/blob/main/micropython/examples/breakout_rtc/set-time.py
-    from pimoroni_i2c import PimoroniI2C
     from breakout_rtc import BreakoutRTC
     from machine import RTC
 
     # set up I2C
-    i2c = PimoroniI2C(plasma_stick.SDA, plasma_stick.SCL)
+    i2c = machine.I2C()
 
     # set up the RTC breakout
     RV3028 = BreakoutRTC(i2c)
@@ -47,7 +48,7 @@ def set_pico_time():
 
 
 # set up the WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # start updating the LED strip
 led_strip.start()

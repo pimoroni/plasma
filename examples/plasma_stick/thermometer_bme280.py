@@ -1,8 +1,9 @@
-import plasma
-from plasma import plasma_stick
 import time
+
+import machine
 from breakout_bme280 import BreakoutBME280
-from pimoroni_i2c import PimoroniI2C
+
+import plasma
 
 """
 Reads the temperature from a BME280 breakout...
@@ -25,13 +26,13 @@ HUE_START = 230  # blue
 HUE_END = 359  # red
 
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # Start updating the LED strip
 led_strip.start()
 
 # set up I2C
-i2c = PimoroniI2C(plasma_stick.SDA, plasma_stick.SCL)
+i2c = machine.I2C()
 
 # set up BME280 breakout
 bme = BreakoutBME280(i2c)

@@ -1,6 +1,7 @@
-import plasma
 import math
 import time
+
+import plasma
 
 NUM_LEDS = 26
 EFFECT_SPEED = 2       # Does what it says on the tin! (lower is slower but you might see quantization/stepping)

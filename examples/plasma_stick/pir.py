@@ -1,8 +1,9 @@
-import plasma
-from plasma import plasma_stick
-from machine import Pin
 import time
-from random import random, uniform, choice
+from random import choice, random, uniform
+
+import machine
+
+import plasma
 
 """
 This example uses a PIR sensor to trigger some spooky effects.
@@ -70,11 +71,11 @@ def all_on():
 
 # set up the hardware
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # the pin the signal line of our PIR sensor is connected to
 # if you're using one of our qw/st > DuPont cables the blue wire is SDA (GP4) and the yellow wire is SCL (GP5)
-pir = Pin(plasma_stick.SCL, Pin.IN, Pin.PULL_UP)
+pir = machine.Pin("PLASMA_SCL", machine.Pin.IN, machine.Pin.PULL_UP)
 
 # Start updating the LED strip
 led_strip.start()

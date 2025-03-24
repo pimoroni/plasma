@@ -1,7 +1,7 @@
 import time
+from random import choice, random
+
 import plasma
-from plasma import plasma_stick
-from random import random, choice
 
 """
 A Christmas tree, with fairy lights!
@@ -22,7 +22,7 @@ LIGHT_COLOURS = ((0.0, 1.0, 1.0),   # red
 LIGHT_CHANGE_CHANCE = 0.5  # change to 0.0 if you want static lights
 
 # set up the WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # start updating the LED strip
 led_strip.start()

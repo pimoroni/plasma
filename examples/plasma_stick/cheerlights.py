@@ -1,11 +1,12 @@
-import WIFI_CONFIG
-from network_manager import NetworkManager
+import time
+
 import uasyncio
 import urequests
-import time
-import plasma
-from plasma import plasma_stick
+import WIFI_CONFIG
 from machine import Pin
+from network_manager import NetworkManager
+
+import plasma
 
 '''
 This Plasma Stick example sets your LED strip to the current #cheerlights colour.
@@ -78,7 +79,7 @@ def hex_to_rgb(hex):
 pico_led = Pin('LED', Pin.OUT)
 
 # set up the WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # start updating the LED strip
 led_strip.start()

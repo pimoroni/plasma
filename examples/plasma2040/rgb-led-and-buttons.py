@@ -1,17 +1,13 @@
 import time
 
-# Import plasma2040
-from plasma import plasma2040
-
 # Import helpers for RGB LEDs and Buttons
 from pimoroni import RGBLED, Button
 
-led = RGBLED(plasma2040.LED_R, plasma2040.LED_G, plasma2040.LED_B)
+user_sw = Button("USER_SW", repeat_time=0)
+button_a = Button("BUTTON_A", repeat_time=0)
+button_b = Button("BUTTON_B", repeat_time=0)
+led = RGBLED("LED_R", "LED_G", "LED_B")
 led.set_rgb(0, 0, 0)
-
-user_sw = Button(plasma2040.USER_SW)
-button_a = Button(plasma2040.BUTTON_A)
-button_b = Button(plasma2040.BUTTON_B)
 
 while True:
     if user_sw.read():

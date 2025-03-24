@@ -1,6 +1,6 @@
-import plasma
-from plasma import plasma_stick
 from math import sin
+
+import plasma
 
 """
 Simple pulsing effect generated using a sine wave.
@@ -14,7 +14,7 @@ NUM_LEDS = 50
 COLOUR = 0.5
 
 # set up the WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # start updating the LED strip
 led_strip.start()

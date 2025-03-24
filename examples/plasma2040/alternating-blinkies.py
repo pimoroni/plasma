@@ -1,8 +1,8 @@
 # This super simple example sets up two alternating colours, great for festive lights!
 
-import plasma
-from plasma import plasma2040
 import time
+
+import plasma
 
 # Set how many LEDs you have
 NUM_LEDS = 50
@@ -20,10 +20,10 @@ SPEED = 1
 # Pick *one* LED type by uncommenting the relevant line below:
 
 # APA102 / DotStar™ LEDs
-# led_strip = plasma.APA102(NUM_LEDS, 0, 0, plasma2040.DAT, plasma2040.CLK)
+# led_strip = plasma.APA102(NUM_LEDS, 0, 0)
 
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma2040.DAT)
+led_strip = plasma.WS2812(NUM_LEDS)
 
 # Start updating the LED strip
 led_strip.start()

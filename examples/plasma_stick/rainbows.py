@@ -1,6 +1,6 @@
-import plasma
-from plasma import plasma_stick
 import time
+
+import plasma
 
 """
 Make some rainbows!
@@ -16,7 +16,7 @@ SPEED = 20
 UPDATES = 60
 
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # Start updating the LED strip
 led_strip.start()

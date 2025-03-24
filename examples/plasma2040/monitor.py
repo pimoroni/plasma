@@ -1,12 +1,10 @@
-import plasma
-from plasma import plasma2040
-
+import machine
+# Import bme68x and I2C helper
+from breakout_bme68x import BreakoutBME68X
 # Import helpers for RGB LEDs and Buttons
 from pimoroni import RGBLED, Button
 
-# Import bme68x and I2C helper
-from breakout_bme68x import BreakoutBME68X
-from pimoroni_i2c import PimoroniI2C
+import plasma
 
 # Uses a BME68x to monitor the ambient temperature, pressure and humidity, and show them as bars on an LED strip.
 # Press "A" to cycle to the next mode.
@@ -47,19 +45,16 @@ HUMIDITY_HUE_END = 0.667
 # Pick *one* LED type by uncommenting the relevant line below:
 
 # APA102 / DotStar™ LEDs
-# led_strip = plasma.APA102(NUM_LEDS, 0, 0, plasma2040.DAT, plasma2040.CLK)
+# led_strip = plasma.APA102(NUM_LEDS)
 
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma2040.DAT)
+led_strip = plasma.WS2812(NUM_LEDS)
 
+button_a = Button("BUTTON_A", repeat_time=0)
+button_b = Button("BUTTON_B", repeat_time=0)
+led = RGBLED("LED_R", "LED_G", "LED_B")
 
-button_a = Button(plasma2040.BUTTON_A, repeat_time=0)
-button_b = Button(plasma2040.BUTTON_B, repeat_time=0)
-led = RGBLED(plasma2040.LED_R, plasma2040.LED_G, plasma2040.LED_B)
-
-PINS_PLASMA2040 = {"sda": plasma2040.SDA, "scl": plasma2040.SCL}
-
-i2c = PimoroniI2C(**PINS_PLASMA2040)
+i2c = machine.I2C()
 bme = BreakoutBME68X(i2c)
 
 

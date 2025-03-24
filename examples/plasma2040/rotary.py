@@ -1,14 +1,13 @@
-import plasma
-from plasma import plasma2040
-import time
 import math
+import time
 
+import machine
+# Import bme68x and I2C helper
+from breakout_encoder import BreakoutEncoder
 # Import helpers for RGB LEDs and Buttons
 from pimoroni import RGBLED, Button
 
-# Import bme68x and I2C helper
-from breakout_encoder import BreakoutEncoder
-from pimoroni_i2c import PimoroniI2C
+import plasma
 
 # Press "B" to enable cycling.
 # Press "A" to change the encoder mode.
@@ -36,19 +35,17 @@ UPDATES = 60
 # Pick *one* LED type by uncommenting the relevant line below:
 
 # APA102 / DotStar™ LEDs
-led_strip = plasma.APA102(NUM_LEDS, 0, 0, plasma2040.DAT, plasma2040.CLK)
+led_strip = plasma.APA102(NUM_LEDS)
 
 # WS2812 / NeoPixel™ LEDs
-# led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma2040.DAT)
+# led_strip = plasma.WS2812(NUM_LEDS)
 
-user_sw = Button(plasma2040.USER_SW, repeat_time=0)
-button_a = Button(plasma2040.BUTTON_A, repeat_time=0)
-button_b = Button(plasma2040.BUTTON_B, repeat_time=0)
-led = RGBLED(plasma2040.LED_R, plasma2040.LED_G, plasma2040.LED_B)
+user_sw = Button("USER_SW", repeat_time=0)
+button_a = Button("BUTTON_A", repeat_time=0)
+button_b = Button("BUTTON_B", repeat_time=0)
+led = RGBLED("LED_R", "LED_G", "LED_B")
 
-PINS_PLASMA2040 = {"sda": plasma2040.SDA, "scl": plasma2040.SCL}
-
-i2c = PimoroniI2C(**PINS_PLASMA2040)
+i2c = machine.I2C()
 enc = BreakoutEncoder(i2c)
 enc.set_brightness(1.0)
 

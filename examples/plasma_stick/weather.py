@@ -1,14 +1,15 @@
-import WIFI_CONFIG
-from network_manager import NetworkManager
-import uasyncio
-import urequests
-import time
 import gc
-import plasma
-from plasma import plasma_stick
+import time
 # Random functions! randrange is for picking integers from a range, and uniform is for floats.
 from random import randrange, uniform
-from machine import Timer, Pin
+
+import uasyncio
+import urequests
+import WIFI_CONFIG
+from machine import Pin, Timer
+from network_manager import NetworkManager
+
+import plasma
 
 """
 Weather in a bottle!
@@ -226,7 +227,7 @@ target_leds = [[0] * 3 for i in range(NUM_LEDS)]
 pico_led = Pin('LED', Pin.OUT)
 
 # set up the WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 
 # start updating the LED strip
 led_strip.start()

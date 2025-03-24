@@ -1,9 +1,9 @@
-import plasma
-from plasma import plasma2040
 import time
 
 # Import helpers for RGB LEDs, Buttons, and Analog
-from pimoroni import RGBLED, Button, Analog
+from pimoroni import RGBLED, Analog, Button
+
+import plasma
 
 # Press "B" to speed up the LED cycling effect.
 # Press "A" to slow it down again.
@@ -18,20 +18,22 @@ DEFAULT_SPEED = 10
 # How many times the LEDs will be updated per second
 UPDATES = 60
 
+ADC_GAIN = 50
+SHUNT_RESISTOR = 0.015
 
 # Pick *one* LED type by uncommenting the relevant line below:
 
 # APA102 / DotStar™ LEDs
-# led_strip = plasma.APA102(NUM_LEDS, 0, 0, plasma2040.DAT, plasma2040.CLK)
+# led_strip = plasma.APA102(NUM_LEDS)
 
 # WS2812 / NeoPixel™ LEDs
-led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma2040.DAT)
+led_strip = plasma.WS2812(NUM_LEDS)
 
-user_sw = Button(plasma2040.USER_SW)
-button_a = Button(plasma2040.BUTTON_A)
-button_b = Button(plasma2040.BUTTON_B)
-led = RGBLED(plasma2040.LED_R, plasma2040.LED_G, plasma2040.LED_B)
-sense = Analog(plasma2040.CURRENT_SENSE, plasma2040.ADC_GAIN, plasma2040.SHUNT_RESISTOR)
+user_sw = Button("USER_SW", repeat_time=0)
+button_a = Button("BUTTON_A", repeat_time=0)
+button_b = Button("BUTTON_B", repeat_time=0)
+led = RGBLED("LED_R", "LED_G", "LED_B")
+sense = Analog("CURRENT_SENSE", ADC_GAIN, SHUNT_RESISTOR)
 
 # Start updating the LED strip
 led_strip.start()
