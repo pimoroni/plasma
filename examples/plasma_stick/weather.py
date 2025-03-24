@@ -3,11 +3,9 @@ import time
 # Random functions! randrange is for picking integers from a range, and uniform is for floats.
 from random import randrange, uniform
 
-import uasyncio
-import urequests
-import WIFI_CONFIG
+import requests
+from ezwifi import connect
 from machine import Pin, Timer
-from network_manager import NetworkManager
 
 import plasma
 
@@ -63,30 +61,28 @@ WEATHERCODES = {
 }
 
 
-def status_handler(mode, status, ip):
-    # reports wifi connection status
-    print(mode, status, ip)
-    print('Connecting to wifi...')
+# if no wifi connection, you get spooky rainbows. Bwahahaha!
+def wifi_failed(message=""):
+    print(f'Wifi connection failed! {message}')
+    for i in range(NUM_LEDS):
+        led_strip.set_rgb(i, 255, 0, 0)
+
+
+# Print out WiFi connection messages for debugging
+def wifi_message(wifi, message):
+    print(message)
     # flash while connecting
     for i in range(NUM_LEDS):
-        led_strip.set_rgb(i, 255, 255, 255)
+        led_strip.set_rgb(i, 64, 64, 64)
         time.sleep(0.02)
     for i in range(NUM_LEDS):
         led_strip.set_rgb(i, 0, 0, 0)
-    if status is not None:
-        if status:
-            print('Connection successful!')
-        else:
-            print('Connection failed!')
-            # light up red if connection fails
-            for i in range(NUM_LEDS):
-                led_strip.set_rgb(i, 255, 0, 0)
 
 
 def get_data():
     global weathercode
     print(f"Requesting URL: {URL}")
-    r = urequests.get(URL)
+    r = requests.get(URL)
     # open the json data
     j = r.json()
     print("Data obtained!")
@@ -233,8 +229,10 @@ led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 led_strip.start()
 
 # set up wifi
-network_manager = NetworkManager(WIFI_CONFIG.COUNTRY, status_handler=status_handler)
-uasyncio.get_event_loop().run_until_complete(network_manager.client(WIFI_CONFIG.SSID, WIFI_CONFIG.PSK))
+try:
+    connect(failed=wifi_failed, info=wifi_message, warning=wifi_message, error=wifi_message)
+except ValueError as e:
+    wifi_failed(e)
 
 # get the first lot of data
 get_data()

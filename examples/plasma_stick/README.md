@@ -158,7 +158,7 @@ Reads the temperature from a [BME280 breakout](https://shop.pimoroni.com/product
 
 ## Wireless Examples
 
-The wireless examples need `network_manager.py` and `WIFI_CONFIG.py` from the `common` directory to be saved to your Pico W. Open up `WIFI_CONFIG.py` in Thonny to add your wifi details (and save it when you're done).
+The wireless examples need `secrets.py` from the `examples` directory to be saved to your Pico W. Open up `secrets.py` in Thonny to add your wifi details (and save it when you're done).
 
 - [micropython/examples/common](../../examples/common)
 

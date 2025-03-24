@@ -1,10 +1,8 @@
 import time
 
-import uasyncio
 import urequests
-import WIFI_CONFIG
+from ezwifi import connect
 from machine import Pin
-from network_manager import NetworkManager
 
 import plasma
 
@@ -23,23 +21,15 @@ NUM_LEDS = 50
 BRIGHTNESS = 0.5
 
 
-def status_handler(mode, status, ip):
-    # reports wifi connection status
-    print(mode, status, ip)
-    print('Connecting to wifi...')
-    # flash while connecting
-    for i in range(NUM_LEDS):
-        led_strip.set_hsv(i, 0, 0, BRIGHTNESS)
-        time.sleep(0.02)
-    for i in range(NUM_LEDS):
-        led_strip.set_hsv(i, 0, 0, 0)
-    if status is not None:
-        if status:
-            print('Wifi connection successful!')
-        else:
-            print('Wifi connection failed!')
-            # if no wifi connection, you get spooky rainbows. Bwahahaha!
-            spooky_rainbows()
+# if no wifi connection, you get spooky rainbows. Bwahahaha!
+def wifi_failed(message=""):
+    print(f'Wifi connection failed! {message}')
+    spooky_rainbows()
+
+
+# Print out WiFi connection messages for debugging
+def wifi_message(wifi, message):
+    print(message)
 
 
 def spooky_rainbows():
@@ -86,12 +76,9 @@ led_strip.start()
 
 # set up wifi
 try:
-    network_manager = NetworkManager(WIFI_CONFIG.COUNTRY, status_handler=status_handler)
-    uasyncio.get_event_loop().run_until_complete(network_manager.client(WIFI_CONFIG.SSID, WIFI_CONFIG.PSK))
-except Exception as e:
-    print(f'Wifi connection failed! {e}')
-    # if no wifi, then you get...
-    spooky_rainbows()
+    connect(failed=wifi_failed, info=wifi_message, warning=wifi_message, error=wifi_message)
+except ValueError as e:
+    wifi_failed(e)
 
 while True:
     # open the json file
