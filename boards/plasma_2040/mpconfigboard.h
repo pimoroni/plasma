@@ -10,3 +10,7 @@
 // There is no good SPI bus broken out on Plasma 2040
 // So disable default pins and force the user to pick
 #define MICROPY_HW_SPI_NO_DEFAULT_PINS          (1)
+
+// Defines for the Plasma MicroPython module default args
+#define PLASMA_CLOCK_PIN 14
+#define PLASMA_DATA_PIN 15
