@@ -3,7 +3,7 @@ import time
 import plasma
 
 """
-This super simple example sets up two alternating colours, great for festive lights!
+Set up two alternating colours, great for festive lights!
 """
 
 # Set how many LEDs you have

@@ -28,7 +28,7 @@ try:
             led_offset *= 3
             led_offset += t
 
-            # A simple sine with a 2x period, shifted to 0 to 254
+            # A sine with a 2x period, shifted to 0 to 254
             # This provides a brightness cycling effect phase-locked to the LEDs
             br = (math.sin(t / 2 + led_offset) + 1) * 127
 

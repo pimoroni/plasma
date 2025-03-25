@@ -4,7 +4,7 @@ from random import random, uniform
 import plasma
 
 """
-A basic fire effect.
+A fire effect.
 """
 
 # Set how many LEDs you have

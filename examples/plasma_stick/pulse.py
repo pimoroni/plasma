@@ -3,7 +3,7 @@ from math import sin
 import plasma
 
 """
-Simple pulsing effect generated using a sine wave.
+Pulsing effect generated using a sine wave.
 """
 
 # Set how many LEDs you have

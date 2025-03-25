@@ -9,7 +9,7 @@ from pimoroni import RGBLED, Button
 import plasma
 
 """
-A simple balancing game, where you use the MSA301 accelerometer to line up a band with a goal on the strip.
+A balancing game, where you use the MSA301 accelerometer to line up a band with a goal on the strip.
 
 This can either be done using:
 - Angle mode: Where position on the strip directly matches the accelerometer's angle.

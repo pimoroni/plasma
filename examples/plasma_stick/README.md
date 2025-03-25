@@ -66,17 +66,20 @@ i2c = machine.I2C(sda=machine.Pin(4), scl=machine.Pin(5))
 
 ## Basic Examples
 
+These examples will also work on Plasma 2040 and Plasma 2350 (W).
+
 ### Alternating Blinkies
 
 [alternating-blinkies.py](alternating-blinkies.py)
 
-A simple example with two alternating colours, great for festive lights!
+Demonstrates animating two alternating colours, great for festive lights!
 
 ### Fire
 
 [fire.py](fire.py)
 
-A simple 🔥 fire effect example 🤘 (warning, flashy). 
+A 🔥 fire effect 🤘 (warning, flashy). Uses randomisation to animate the hue
+and brightness.
 
 ### Moon
 
@@ -157,6 +160,8 @@ Connect a PIR motion sensor and trigger some ominous effects. We like [these one
 Reads the temperature from a [BME280 breakout](https://shop.pimoroni.com/products/bme280-breakout) and changes the LED strip an appropriate colour.
 
 ## Wireless Examples
+
+These examples will also work on Plasma 2350 W or Plasma 2350 with an RM2 module.
 
 The wireless examples need `secrets.py` from the `examples` directory to be saved to your Pico W. Open up `secrets.py` in Thonny to add your wifi details (and save it when you're done).
 
