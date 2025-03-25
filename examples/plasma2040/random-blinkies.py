@@ -1,10 +1,11 @@
-# This simple example randomises LED colours and brightness for a subtly sparkly effect.
-
 import time
-# Random functions! randrange is for picking integers from a range, and uniform is for floats.
 from random import randrange, uniform
 
 import plasma
+
+"""
+This example randomises LED colours and brightness for a subtly sparkly effect.
+"""
 
 # Set how many LEDs you have
 NUM_LEDS = 50
@@ -32,6 +33,8 @@ led_strip = plasma.WS2812(NUM_LEDS)
 led_strip.start()
 
 # Light up all the leds random colours and brightnesses from the specified ranges...
+# randrange is for picking integers from a range,
+# uniform is for generating random uniform floats between a minimum and maximum value.
 for i in range(NUM_LEDS):
     led_strip.set_hsv(i, randrange(HUE_START, HUE_END) / 360, 1.0, uniform(BRIGHTNESS_MIN, BRIGHTNESS_MAX))
 

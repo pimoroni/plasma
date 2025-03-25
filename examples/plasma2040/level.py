@@ -3,22 +3,24 @@ import random
 import time
 
 import machine
-# Import msa301 and I2C helper
 from breakout_msa301 import BreakoutMSA301
-# Import helpers for RGB LEDs and Buttons
 from pimoroni import RGBLED, Button
 
 import plasma
 
-# A simple balancing game, where you use the MSA301 accelerometer to line up a band with a goal on the strip.
-# This can either be done using:
-# - Angle mode: Where position on the strip directly matches the accelerometer's angle
-# - Velocity mode: Where tilting the accelerometer changes the speed the band moves at
-# When the goal position is reached, a new position is randomly selected
+"""
+A simple balancing game, where you use the MSA301 accelerometer to line up a band with a goal on the strip.
 
-# Press "A" to change the game mode.
-# Press "B" to start or stop the game mode.
-# Press "Boot" to invert the direction of the accelerometer tilt
+This can either be done using:
+- Angle mode: Where position on the strip directly matches the accelerometer's angle.
+- Velocity mode: Where tilting the accelerometer changes the band's speed.
+
+When the goal position is reached, a new position is randomly selected.
+
+- Press "A" to change the game mode.
+- Press "Boot" to start or stop the game mode.
+- Press "B" to invert the direction of the accelerometer tilt
+"""
 
 # Set how many LEDs you have
 NUM_LEDS = 30
@@ -64,7 +66,13 @@ led_strip = plasma.APA102(NUM_LEDS)
 
 user_sw = Button("USER_SW", repeat_time=0)
 button_a = Button("BUTTON_A", repeat_time=0)
-button_b = Button("BUTTON_B", repeat_time=0)
+
+try:
+    # Button B is only available on Plasma 2040
+    button_b = Button("BUTTON_B", repeat_time=0)
+except ValueError:
+    button_b = None
+
 led = RGBLED("LED_R", "LED_G", "LED_B")
 
 i2c = machine.I2C()
@@ -172,27 +180,29 @@ while True:
 
     sw_pressed = user_sw.read()
     a_pressed = button_a.read()
-    b_pressed = button_b.read()
-
-    if b_pressed:
-        game_mode = not game_mode
+    b_pressed = button_b and button_b.read()
 
     if sw_pressed:
+        game_mode = not game_mode
+
+    if b_pressed:
         invert = not invert
 
     if mode == ANGLE:
-        if game_mode:
-            led.set_rgb(255, 255, 0)
-        else:
-            led.set_rgb(0, 255, 0)
+        if led:
+            if game_mode:
+                led.set_rgb(255, 255, 0)
+            else:
+                led.set_rgb(0, 255, 0)
         if a_pressed:
             mode = VELOCITY
 
     elif mode == VELOCITY:
-        if game_mode:
-            led.set_rgb(255, 0, 255)
-        else:
-            led.set_rgb(0, 0, 255)
+        if led:
+            if game_mode:
+                led.set_rgb(255, 0, 255)
+            else:
+                led.set_rgb(0, 0, 255)
         if a_pressed:
             mode = ANGLE
 

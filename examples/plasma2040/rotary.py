@@ -2,16 +2,16 @@ import math
 import time
 
 import machine
-# Import bme68x and I2C helper
 from breakout_encoder import BreakoutEncoder
-# Import helpers for RGB LEDs and Buttons
 from pimoroni import RGBLED, Button
 
 import plasma
 
-# Press "B" to enable cycling.
-# Press "A" to change the encoder mode.
-# Press "Boot" to reset the effects back to default.
+"""
+- Press "B" to enable cycling.
+- Press "A" to change the encoder mode.
+- Press "Boot" to reset the effects back to default.
+"""
 
 # Set how many LEDs you have
 NUM_LEDS = 30
@@ -42,7 +42,13 @@ led_strip = plasma.APA102(NUM_LEDS)
 
 user_sw = Button("USER_SW", repeat_time=0)
 button_a = Button("BUTTON_A", repeat_time=0)
-button_b = Button("BUTTON_B", repeat_time=0)
+
+try:
+    # Button B is only available on Plasma 2040
+    button_b = Button("BUTTON_B", repeat_time=0)
+except ValueError:
+    button_b = None
+
 led = RGBLED("LED_R", "LED_G", "LED_B")
 
 i2c = machine.I2C()
@@ -141,7 +147,7 @@ while True:
 
     sw_pressed = user_sw.read()
     a_pressed = button_a.read()
-    b_pressed = button_b.read()
+    b_pressed = button_b and button_b.read()
 
     if sw_pressed:
         speed = DEFAULT_SPEED

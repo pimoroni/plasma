@@ -1,13 +1,14 @@
 import time
 
-# Import helpers for RGB LEDs, Buttons, and Analog
 from pimoroni import RGBLED, Analog, Button
 
 import plasma
 
-# Press "B" to speed up the LED cycling effect.
-# Press "A" to slow it down again.
-# Press "Boot" to reset the speed back to default.
+"""
+- Press "B" to speed up the LED cycling effect.
+- Press "A" to slow it down again.
+- Press "Boot" to reset the speed back to default.
+"""
 
 # Set how many LEDs you have
 NUM_LEDS = 30
@@ -18,6 +19,9 @@ DEFAULT_SPEED = 10
 # How many times the LEDs will be updated per second
 UPDATES = 60
 
+# Magic values for Plasma 2040 current sense
+# 3A * 0.015Ω = 0.045V
+# 0.045V * 50 (gain) = 2.25V maximum
 ADC_GAIN = 50
 SHUNT_RESISTOR = 0.015
 
@@ -31,9 +35,18 @@ led_strip = plasma.WS2812(NUM_LEDS)
 
 user_sw = Button("USER_SW", repeat_time=0)
 button_a = Button("BUTTON_A", repeat_time=0)
-button_b = Button("BUTTON_B", repeat_time=0)
+try:
+    # Button B is only available on Plasma 2040
+    button_b = Button("BUTTON_B", repeat_time=0)
+except ValueError:
+    button_b = None
 led = RGBLED("LED_R", "LED_G", "LED_B")
-sense = Analog("CURRENT_SENSE", ADC_GAIN, SHUNT_RESISTOR)
+
+try:
+    # Sense is only available on Plasma 2040
+    sense = Analog("CURRENT_SENSE", ADC_GAIN, SHUNT_RESISTOR)
+except ValueError:
+    sense = None
 
 # Start updating the LED strip
 led_strip.start()
@@ -46,7 +59,7 @@ count = 0
 while True:
     sw = user_sw.read()
     a = button_a.read()
-    b = button_b.read()
+    b = button_b and button_b.read()
 
     if sw:
         speed = DEFAULT_SPEED
@@ -67,7 +80,7 @@ while True:
     led.set_rgb(speed, 0, 255 - speed)
 
     count += 1
-    if count >= UPDATES:
+    if sense and count >= UPDATES:
         # Display the current value once every second
         print("Current =", sense.read_current(), "A")
         count = 0

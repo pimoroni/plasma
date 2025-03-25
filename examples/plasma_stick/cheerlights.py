@@ -6,10 +6,10 @@ from machine import Pin
 
 import plasma
 
-'''
+"""
 This Plasma Stick example sets your LED strip to the current #cheerlights colour.
 Find out more about the Cheerlights API at https://cheerlights.com/
-'''
+"""
 
 URL = 'http://api.thingspeak.com/channels/1417/field/2/last.json'
 UPDATE_INTERVAL = 120  # refresh interval in secs. Be nice to free APIs!

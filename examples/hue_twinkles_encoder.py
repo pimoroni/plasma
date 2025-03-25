@@ -8,7 +8,7 @@ from pimoroni import RGBLED
 import plasma
 
 """
-A simple example for controlling pulsing LED patterns with an Encoder Wheel.
+Control pulsing LED patterns with an Encoder Wheel.
 
 Pressing the middle button will change between Hue, Spread, Brightness and Speed mode.
 

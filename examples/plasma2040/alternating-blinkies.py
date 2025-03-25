@@ -1,8 +1,10 @@
-# This super simple example sets up two alternating colours, great for festive lights!
-
 import time
 
 import plasma
+
+"""
+This super simple example sets up two alternating colours, great for festive lights!
+"""
 
 # Set how many LEDs you have
 NUM_LEDS = 50

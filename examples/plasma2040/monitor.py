@@ -1,14 +1,15 @@
 import machine
-# Import bme68x and I2C helper
 from breakout_bme68x import BreakoutBME68X
-# Import helpers for RGB LEDs and Buttons
 from pimoroni import RGBLED, Button
 
 import plasma
 
-# Uses a BME68x to monitor the ambient temperature, pressure and humidity, and show them as bars on an LED strip.
-# Press "A" to cycle to the next mode.
-# Press "B" to cycle to the previous mode.
+"""
+Uses a BME68x to monitor the ambient temperature, pressure and humidity, and show them as bars on an LED strip.
+
+- Press "A" to cycle to the next mode.
+- Press "B" to cycle to the previous mode.
+"""
 
 # Set how many LEDs you have
 NUM_LEDS = 30
@@ -50,9 +51,10 @@ HUMIDITY_HUE_END = 0.667
 # WS2812 / NeoPixel™ LEDs
 led_strip = plasma.WS2812(NUM_LEDS)
 
+user_sw = Button("USER_SW", repeat_time=0)
 button_a = Button("BUTTON_A", repeat_time=0)
-button_b = Button("BUTTON_B", repeat_time=0)
 led = RGBLED("LED_R", "LED_G", "LED_B")
+
 
 i2c = machine.I2C()
 bme = BreakoutBME68X(i2c)
@@ -121,7 +123,7 @@ while True:
         colour_gauge(t, 0, NUM_LEDS, HUMIDITY_HUE_START, HUMIDITY_HUE_END)
 
     a_pressed = button_a.read()
-    b_pressed = button_b.read()
+    b_pressed = user_sw.read()
 
     if mode == ALL:
         led.set_rgb(127, 127, 127)
