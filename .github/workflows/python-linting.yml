@@ -7,24 +7,23 @@ on:
 jobs:
   build:
     name: Python Linting
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Source
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+    - name: Install Python
+      uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+      with:
+        python-version: '3.13'
 
     - name: Install Python Deps
-      run: |
-        python3 -m venv .venv
-        source .venv/bin/activate
-        python -m pip install flake8
+      run: source ci/python.sh && qa_prepare_all
 
     - name: Lint MicroPython Examples
       shell: bash
-      run: |
-        source .venv/bin/activate
-        python -m flake8 --show-source --ignore E501 examples/
+      run: source ci/python.sh && qa_examples_check
 
     - name: Lint MicroPython Modules
       shell: bash
-      run: |
-        source .venv/bin/activate
-        python -m flake8 --show-source --ignore E501 modules/
+      run: source ci/python.sh && qa_modules_check
