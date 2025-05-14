@@ -71,8 +71,7 @@ class LTE():
             response = self._send_at_command("AT+CSQ", 1)
             quality = int(response.split(":")[1].split(",")[0])
             # Conversion as per AT command set datasheet
-            db = -113 + (2 * quality)
-            return db
+            return -113 + (2 * quality)
         except CellularError:
             pass
         return None

@@ -69,7 +69,7 @@ def wifi_failed(message=""):
 
 
 # Print out WiFi connection messages for debugging
-def wifi_message(wifi, message):
+def wifi_message(_wifi, message):
     print(message)
     # flash while connecting
     for i in range(NUM_LEDS):
@@ -79,7 +79,7 @@ def wifi_message(wifi, message):
         led_strip.set_rgb(i, 0, 0, 0)
 
 
-def get_data():
+def get_data(_t=None):
     global weathercode
     print(f"Requesting URL: {URL}")
     r = requests.get(URL)
@@ -239,7 +239,7 @@ get_data()
 
 # start timer (the timer will update our data every UPDATE_INTERVAL)
 timer = Timer(-1)
-timer.init(period=UPDATE_INTERVAL * 1000, mode=Timer.PERIODIC, callback=lambda t: get_data())
+timer.init(period=UPDATE_INTERVAL * 1000, mode=Timer.PERIODIC, callback=get_data)
 
 while True:
     # do some fancy stuff with the LEDs based on the weather code

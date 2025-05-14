@@ -28,7 +28,7 @@ def wifi_failed(message=""):
 
 
 # Print out WiFi connection messages for debugging
-def wifi_message(wifi, message):
+def wifi_message(_wifi, message):
     print(message)
 
 
