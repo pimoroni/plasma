@@ -30,46 +30,46 @@ UPDATE_INTERVAL = 900  # refresh interval in secs. Be nice to free APIs!
 
 # Weather codes from https://open-meteo.com/en/docs#:~:text=WMO%20Weather%20interpretation%20codes%20(WW)
 WEATHERCODES = {
-    0: 'clear sky',
-    1: 'mostly clear',
-    2: 'partly cloudy',
-    3: 'cloudy',
-    45: 'fog and depositing rime',
-    48: 'fog',
-    51: 'light drizzle',
-    53: 'moderate drizzle',
-    55: 'dense drizzle',
-    56: 'light freezing drizzle',
-    57: 'dense freezing drizzle',
-    61: 'slight rain',
-    63: 'moderate rain',
-    65: 'heavy rain',
-    66: 'light freezing rain',
-    67: 'heavy freezing rain',
-    71: 'slight snow',
-    73: 'moderate snow',
-    75: 'heavy snow',
-    77: 'snow grains',
-    80: 'slight rain showers',
-    81: 'moderate rain showers',
-    82: 'violent rain showers',
-    85: 'slight snow showers',
-    86: 'heavy snow showers',
-    95: 'thunderstorm',
-    96: 'thunderstorm with slight hail',
-    99: 'thunderstorm with heavy hail'
+    0: "clear sky",
+    1: "mostly clear",
+    2: "partly cloudy",
+    3: "cloudy",
+    45: "fog and depositing rime",
+    48: "fog",
+    51: "light drizzle",
+    53: "moderate drizzle",
+    55: "dense drizzle",
+    56: "light freezing drizzle",
+    57: "dense freezing drizzle",
+    61: "slight rain",
+    63: "moderate rain",
+    65: "heavy rain",
+    66: "light freezing rain",
+    67: "heavy freezing rain",
+    71: "slight snow",
+    73: "moderate snow",
+    75: "heavy snow",
+    77: "snow grains",
+    80: "slight rain showers",
+    81: "moderate rain showers",
+    82: "violent rain showers",
+    85: "slight snow showers",
+    86: "heavy snow showers",
+    95: "thunderstorm",
+    96: "thunderstorm with slight hail",
+    99: "thunderstorm with heavy hail"
 }
 
 
 # if no wifi connection, you get spooky rainbows. Bwahahaha!
 def wifi_failed(message=""):
-    print(f'Wifi connection failed! {message}')
+    print(f"Wifi connection failed! {message}")
     for i in range(NUM_LEDS):
         led_strip.set_rgb(i, 255, 0, 0)
 
 
 # Print out WiFi connection messages for debugging
-def wifi_message(wifi, message):
+def wifi_message(_wifi, message):
     print(message)
     # flash while connecting
     for i in range(NUM_LEDS):
@@ -79,7 +79,7 @@ def wifi_message(wifi, message):
         led_strip.set_rgb(i, 0, 0, 0)
 
 
-def get_data():
+def get_data(_t=None):
     global weathercode
     print(f"Requesting URL: {URL}")
     r = requests.get(URL)
@@ -220,7 +220,7 @@ current_leds = [[0] * 3 for i in range(NUM_LEDS)]
 target_leds = [[0] * 3 for i in range(NUM_LEDS)]
 
 # set up the Pico W's onboard LED
-pico_led = Pin('LED', Pin.OUT)
+pico_led = Pin("LED", Pin.OUT)
 
 # set up the WS2812 / NeoPixel™ LEDs
 led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
@@ -239,7 +239,7 @@ get_data()
 
 # start timer (the timer will update our data every UPDATE_INTERVAL)
 timer = Timer(-1)
-timer.init(period=UPDATE_INTERVAL * 1000, mode=Timer.PERIODIC, callback=lambda t: get_data())
+timer.init(period=UPDATE_INTERVAL * 1000, mode=Timer.PERIODIC, callback=get_data)
 
 while True:
     # do some fancy stuff with the LEDs based on the weather code

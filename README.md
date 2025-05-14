@@ -58,6 +58,7 @@ For each board there are two choices, a regular build that just updates the firm
 
 * [Learn: Getting started with Plasma 2040](https://learn.pimoroni.com/article/plasma-2040)
 * [Learn: Assembling Wireless Plasma Kit](https://learn.pimoroni.com/article/assembling-wireless-plasma-kit)
+* [Plasma documentation](docs/plasma.md)
 
 ## Other Resources
 
