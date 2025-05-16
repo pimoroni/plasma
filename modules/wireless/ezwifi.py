@@ -129,5 +129,8 @@ class EzWiFi:
             raise ImportError("secrets.py: missing or invalid!") from e
 
 
-def connect(**kwargs):
-    return asyncio.get_event_loop().run_until_complete(EzWiFi(**kwargs).connect(retries=kwargs.get("retries", 10)))
+def connect(*args, **kwargs):
+    ssid, password = None, None
+    if len(args) == 2:
+        ssid, password = args
+    return asyncio.get_event_loop().run_until_complete(EzWiFi(**kwargs).connect(ssid, password, retries=kwargs.get("retries", 10)))
