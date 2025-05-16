@@ -20,6 +20,8 @@ class EzWiFi:
 
         self._verbose = get("verbose", False)
 
+        self._spce = get("spce", False)
+
         self._events = {
             "connected": get("connected", None),
             "failed": get("failed", None),
@@ -28,7 +30,12 @@ class EzWiFi:
             "error": get("error", None)
         }
 
-        wifi_pins = {key: kwargs[key] for key in kwargs if key.startswith("pin_")}
+        if self._spce:
+            # Use the SP/CE pins for this board
+            wifi_pins = {"pin_on": 8, "pin_out": 11, "pin_in": 11, "pin_wake": 11, "pin_clock": 10, "pin_cs": 9}
+        else:
+            # Try to get custom pins from kwargs
+            wifi_pins = {key: kwargs[key] for key in kwargs if key.startswith("pin_")}
 
         self._if = network.WLAN(network.STA_IF, **wifi_pins)
         self._if.active(True)
