@@ -28,7 +28,9 @@ class EzWiFi:
             "error": get("error", None)
         }
 
-        self._if = network.WLAN(network.STA_IF)
+        wifi_pins = {key: kwargs[key] for key in kwargs if key.startswith("pin_")}
+
+        self._if = network.WLAN(network.STA_IF, **wifi_pins)
         self._if.active(True)
         # self._if.config(pm=0xa11140) # TODO: ???
         self._statuses = {v: k[5:] for (k, v) in network.__dict__.items() if k.startswith("STAT_")}
