@@ -65,3 +65,4 @@ For each board there are two choices, a regular build that just updates the firm
 Links to community projects and other resources that you might find helpful can be found below. Note that these code examples have not been written/tested by us and we're not able to offer support with them.
 
 - [Plasma Stick Ambient Light Generator](https://github.com/ksaj/Plasma-Stick-Ambient-Light-Generator)
+- [Plasma Stick Halloween Light Show](https://github.com/ksaj/Plasma-Stick-Halloween-Light-Show)
