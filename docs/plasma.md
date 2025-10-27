@@ -79,6 +79,14 @@ Set the first LED - `0` - to Purple `255, 0, 255`:
 led_strip.set_rgb(0, 255, 0, 255)
 ```
 
+#### RGBW
+
+If you're using RGBW LEDs with a seperate white element you can supply this as an additional argument, as so:
+
+```python
+led_strip.set_rgb(0, 255, 0, 255, 255)
+```
+
 #### HSV
 
 Set the first LED - `0` - to Red `0.0`:
@@ -118,6 +126,14 @@ Set the first LED - `0` - to Purple `255, 0, 255`:
 
 ```python
 led_strip.set_rgb(0, 255, 0, 255)
+```
+
+#### RGBW
+
+If you're using RGBW LEDs with a seperate white element you can supply this as an additional argument, as so:
+
+```python
+led_strip.set_rgb(0, 255, 0, 255, 255)
 ```
 
 #### HSV
