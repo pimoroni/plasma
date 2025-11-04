@@ -20,6 +20,8 @@ class EzWiFi:
 
         self._verbose = get("verbose", False)
 
+        self._spce = get("spce", False)
+
         self._events = {
             "connected": get("connected", None),
             "failed": get("failed", None),
@@ -28,7 +30,14 @@ class EzWiFi:
             "error": get("error", None)
         }
 
-        self._if = network.WLAN(network.STA_IF)
+        if self._spce:
+            # Use the SP/CE pins for this board
+            wifi_pins = {"pin_on": 8, "pin_out": 11, "pin_in": 11, "pin_wake": 11, "pin_clock": 10, "pin_cs": 9}
+        else:
+            # Try to get custom pins from kwargs
+            wifi_pins = {key: kwargs[key] for key in kwargs if key.startswith("pin_")}
+
+        self._if = network.WLAN(network.STA_IF, **wifi_pins)
         self._if.active(True)
         # self._if.config(pm=0xa11140) # TODO: ???
         self._statuses = {v: k[5:] for (k, v) in network.__dict__.items() if k.startswith("STAT_")}
@@ -120,5 +129,8 @@ class EzWiFi:
             raise ImportError("secrets.py: missing or invalid!") from e
 
 
-def connect(**kwargs):
-    return asyncio.get_event_loop().run_until_complete(EzWiFi(**kwargs).connect(retries=kwargs.get("retries", 10)))
+def connect(*args, **kwargs):
+    ssid, password = None, None
+    if len(args) == 2:
+        ssid, password = args
+    return asyncio.get_event_loop().run_until_complete(EzWiFi(**kwargs).connect(ssid, password, retries=kwargs.get("retries", 10)))
