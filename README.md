@@ -20,16 +20,16 @@ This repository is home to the MicroPython firmware and examples for Plasma 2040
 
 * Plasma 2350 W - https://shop.pimoroni.com/products/plasma-2350-w
 * Plasma 2350 - https://shop.pimoroni.com/products/plasma-2350
-* Plasma Stick 2040 W - https://shop.pimoroni.com/products/plasma-stick-2040-w
+* Plasma Stick 2040 W - :warning: EOL - https://shop.pimoroni.com/products/plasma-stick-2040-w
 * Plasma 2040 - :warning: EOL - https://shop.pimoroni.com/products/plasma-2040
 
 ## Download Firmware
 
 You can find the latest firmware releases at [https://github.com/pimoroni/plasma/releases/latest](https://github.com/pimoroni/plasma/releases/latest).
 
-For each board there are two choices, a regular build that just updates the firmware and a "-with-examples" build which includes a selection of [examples](examples) depending upon your board.
+For each board there are two choices, a regular build that just updates the firmware and a "-with-filesystem" build which includes a selection of [examples](examples) depending upon your board.
 
-:warning: If you've changed any of the code on your board then back up before flashing "-with-examples" - *your files will be erased!*
+:warning: If you've changed any of the code on your board then back up before flashing "-with-filesystem" - *your files will be erased!*
 
 ## Installation
 
@@ -66,3 +66,4 @@ Links to community projects and other resources that you might find helpful can 
 
 - [Plasma Stick Ambient Light Generator](https://github.com/ksaj/Plasma-Stick-Ambient-Light-Generator)
 - [Plasma Stick Halloween Light Show](https://github.com/ksaj/Plasma-Stick-Halloween-Light-Show)
+- [77 LED Strip Effects for Plasma 2350](https://github.com/mrglennjones/plasma_2350_fx77)
