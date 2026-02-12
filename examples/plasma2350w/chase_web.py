@@ -1,3 +1,8 @@
+# MIT License — Copyright (c) 2026 lemw
+# See chase_web.md for full terms.
+#
+# Written with GitHub Copilot (Claude Opus 4.6).
+
 """
 Plasma Chase — LED chase animation with WiFi web control.
 

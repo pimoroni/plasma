@@ -1,3 +1,6 @@
+# MIT License — Copyright (c) 2026 lemw
+# Written with GitHub Copilot (Claude Opus 4.6).
+
 """Colour diagnostic: lights up all LEDs with one colour at a time.
 Press Enter in the REPL to advance to the next colour.
 Report back what you actually see for each one!
