@@ -1,3 +1,1 @@
-plasma2040/*.py
-plasma_stick/*.py
 *.py
