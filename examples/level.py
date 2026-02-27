@@ -23,7 +23,7 @@ When the goal position is reached, a new position is randomly selected.
 """
 
 # Set how many LEDs you have
-NUM_LEDS = 30
+NUM_LEDS = 50
 
 # How many times the LEDs will be updated per second
 UPDATES = 60
