@@ -7,7 +7,7 @@ import plasma
 Use multiple overlapping, phase-shifted sine waves to create a sparkly effect.
 """
 
-NUM_LEDS = 26
+NUM_LEDS = 50
 EFFECT_SPEED = 2       # Does what it says on the tin! (lower is slower but you might see quantization/stepping)
 EFFECT_SHARPNESS = 10  # Numbers between 1 and 1000 are practical, give them a try!
 EFFECT_FPS = 60        # You'll probably never need to change this

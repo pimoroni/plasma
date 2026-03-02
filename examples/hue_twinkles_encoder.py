@@ -23,7 +23,7 @@ The indicator LED will show which mode your board is in.
 """
 
 # Set how many LEDs you have
-NUM_LEDS = 26
+NUM_LEDS = 50
 
 MAX_VALUE = 100
 

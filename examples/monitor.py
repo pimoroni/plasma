@@ -12,7 +12,7 @@ Uses a BME68x to monitor the ambient temperature, pressure and humidity, and sho
 """
 
 # Set how many LEDs you have
-NUM_LEDS = 30
+NUM_LEDS = 50
 
 # How many times the LEDs will be updated per second
 UPDATES = 60

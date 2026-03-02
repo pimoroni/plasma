@@ -14,7 +14,7 @@ import plasma
 """
 
 # Set how many LEDs you have
-NUM_LEDS = 30
+NUM_LEDS = 50
 
 # The speed that the LEDs will start cycling at
 DEFAULT_SPEED = 20
