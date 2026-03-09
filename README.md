@@ -67,3 +67,4 @@ Links to community projects and other resources that you might find helpful can 
 - [Plasma Stick Ambient Light Generator](https://github.com/ksaj/Plasma-Stick-Ambient-Light-Generator)
 - [Plasma Stick Halloween Light Show](https://github.com/ksaj/Plasma-Stick-Halloween-Light-Show)
 - [77 LED Strip Effects for Plasma 2350](https://github.com/mrglennjones/plasma_2350_fx77)
+- [WiFi Controlled Chase Animation for Plasma 2350 W](https://github.com/lemw/plasma/tree/feature/plasma2350w-chase-web/examples/plasma2350w) 
