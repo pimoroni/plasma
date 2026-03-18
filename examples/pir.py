@@ -76,7 +76,7 @@ led_strip = plasma.WS2812(NUM_LEDS, color_order=plasma.COLOR_ORDER_RGB)
 # the pin the signal line of our PIR sensor is connected to
 # If you're using one of our qw/st > DuPont cables and a Plasma Stick the blue SDA wire is GP4 and the yellow SCL wire is GP5
 # If you're lucky enough to have a Plasma 2350 W, the blue SDA wire is GP20 and the yellow SCL wire is GP21
-pir = machine.Pin("GP5", machine.Pin.IN, machine.Pin.PULL_UP)
+pir = machine.Pin("GP21", machine.Pin.IN, machine.Pin.PULL_UP)
 
 # Start updating the LED strip
 led_strip.start()
