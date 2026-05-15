@@ -1,7 +1,7 @@
 export TERM=${TERM:="xterm-256color"}
 
 MICROPYTHON_FLAVOUR="pimoroni"
-MICROPYTHON_VERSION="cyw43-breakout/1.27.0"
+MICROPYTHON_VERSION="cyw43-breakout/1.28.0"
 
 PIMORONI_PICO_FLAVOUR="pimoroni"
 PIMORONI_PICO_VERSION="main"
