@@ -1,6 +1,6 @@
 import time
 
-import urequests
+import requests
 from ezwifi import connect
 from machine import Pin
 
@@ -83,7 +83,7 @@ except ValueError as e:
 while True:
     # open the json file
     print(f"Requesting URL: {URL}")
-    r = urequests.get(URL)
+    r = requests.get(URL)
     # open the json data
     j = r.json()
     print("Data obtained!")

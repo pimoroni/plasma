@@ -1,4 +1,4 @@
-// Board and hardware specific configuration// Board and hardware specific configuration
+// Board and hardware specific configuration
 #define MICROPY_HW_BOARD_NAME                   "Plasma 2040"
 
 // I2C0 (non-default)
