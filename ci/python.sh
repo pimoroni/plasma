@@ -3,7 +3,7 @@ QA_SCRIPT_PATH=$(dirname "$QA_SCRIPT_PATH")
 QA_SCRIPT_PATH=$(realpath "$QA_SCRIPT_PATH")
 
 function qa_prepare_all {
-    pip install ruff
+    pip install -r "$QA_SCRIPT_PATH/requirements-qa.txt"
 }
 
 function qa_check {

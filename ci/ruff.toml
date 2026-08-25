@@ -43,5 +43,6 @@ lint.select = [
 lint.ignore = [
     "E501",
     "E402",
-    "COM812"
+    "COM812",
+    "ICN001"
 ]
