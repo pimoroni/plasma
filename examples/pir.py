@@ -62,7 +62,7 @@ def fire():
 
 
 def all_on():
-    while pir.value == 1:
+    while pir.value() == 1:
         # light up a solid colour while movement is detected
         for i in range(NUM_LEDS):
             led_strip.set_hsv(i, HUE, 1.0, BRIGHTNESS)
