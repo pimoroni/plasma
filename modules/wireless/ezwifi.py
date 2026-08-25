@@ -32,12 +32,17 @@ class EzWiFi:
 
         if self._spce:
             # Use the SP/CE pins for this board
-            wifi_pins = {"pin_on": 8, "pin_out": 11, "pin_in": 11, "pin_wake": 11, "pin_clock": 10, "pin_cs": 9}
+            wifi_config = {"pin_on": 8, "pin_dat": 11, "pin_clock": 10, "pin_cs": 9}
         else:
-            # Try to get custom pins from kwargs
-            wifi_pins = {key: kwargs[key] for key in kwargs if key.startswith("pin_")}
+            # Try to get custom pins and PIO clock divisor from kwargs
+            wifi_config = {key: kwargs[key] for key in kwargs if key.startswith(("pin_", "div_"))}
 
-        self._if = network.WLAN(network.STA_IF, **wifi_pins)
+        if wifi_config:
+            # Only boards wired to an external cyw43 module build this
+            import cyw43
+            cyw43.CYW43(**wifi_config)
+
+        self._if = network.WLAN(network.STA_IF)
         self._if.active(True)
         # self._if.config(pm=0xa11140) # TODO: ???
         self._statuses = {v: k[5:] for (k, v) in network.__dict__.items() if k.startswith("STAT_")}
