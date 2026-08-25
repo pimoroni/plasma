@@ -6,6 +6,10 @@ set(MICROPY_FROZEN_MANIFEST ${MICROPY_BOARD_DIR}/manifest.py)
 
 set(MICROPY_C_HEAP_SIZE 4096)
 
+if(NOT DEFINED MICROPY_HW_FLASH_STORAGE_BYTES)
+    set(MICROPY_HW_FLASH_STORAGE_BYTES 655360)  # 640 * 1024, of 2MB
+endif()
+
 # Links micropy_lib_lwip and sets MICROPY_PY_LWIP = 1
 # Picked up and expanded upon in mpconfigboard.h
 set(MICROPY_PY_LWIP ON)
