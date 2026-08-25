@@ -86,6 +86,22 @@ function micropython_version {
     echo "MICROPY_GIT_HASH=$MICROPYTHON_VERSION-$TAG_OR_SHA" >> $GITHUB_ENV
 }
 
+function ci_genversion {
+    BOARD=$1
+    MICROPY_BOARD_DIR=$CI_PROJECT_ROOT/boards/$BOARD
+    RELEASE_FILE=${CI_RELEASE_FILENAME:-$BOARD}
+
+    MICROPYTHON_SHA=`git -C "$CI_BUILD_ROOT/micropython" describe --always --long --abbrev=40 HEAD`
+    PIMORONI_PICO_SHA=`git -C "$CI_BUILD_ROOT/pimoroni-pico" describe --always --long --abbrev=40 HEAD`
+
+    cat << EOF > "$MICROPY_BOARD_DIR/version.py"
+DATE="`date`"
+BUILD="$RELEASE_FILE"
+MICROPYTHON_SHA="$MICROPYTHON_SHA"
+PIMORONI_PICO_SHA="$PIMORONI_PICO_SHA"
+EOF
+}
+
 function ci_cmake_configure {
     BOARD=$1
     TOOLS_DIR="$CI_BUILD_ROOT/tools"
@@ -94,6 +110,9 @@ function ci_cmake_configure {
         log_warning "Invalid board: \"$BOARD\". Run with ci_cmake_configure <board_name>."
         return 1
     fi
+
+    ci_genversion $BOARD
+
     BUILD_DIR="$CI_BUILD_ROOT/build-$BOARD"
     cmake -S $CI_BUILD_ROOT/micropython/ports/rp2 -B "$BUILD_DIR" \
     -DPICOTOOL_FORCE_FETCH_FROM_GIT=1 \
@@ -116,21 +135,22 @@ function ci_cmake_build {
         log_warning "Invalid board: \"$BOARD\". Run with ci_cmake_build <board_name>."
         return 1
     fi
+
+    ci_genversion $BOARD
+
     BUILD_DIR="$CI_BUILD_ROOT/build-$BOARD"
     ccache --zero-stats || true
     cmake --build $BUILD_DIR -j 2 || return $?
     ccache --show-stats || true
 
-    if [ -z ${CI_RELEASE_FILENAME+x} ]; then
-        CI_RELEASE_FILENAME=$BOARD
-    fi
+    RELEASE_FILE=${CI_RELEASE_FILENAME:-$BOARD}
 
-    log_inform "Copying .uf2 to $(pwd)/$CI_RELEASE_FILENAME.uf2"
-    cp "$BUILD_DIR/firmware.uf2" $CI_RELEASE_FILENAME.uf2
+    log_inform "Copying .uf2 to $(pwd)/$RELEASE_FILE.uf2"
+    cp "$BUILD_DIR/firmware.uf2" $RELEASE_FILE.uf2
 
     if [ -f "$BUILD_DIR/firmware-with-filesystem.uf2" ]; then
-        log_inform "Copying -with-filesystem .uf2 to $(pwd)/$CI_RELEASE_FILENAME-with-filesystem.uf2"
-        cp "$BUILD_DIR/firmware-with-filesystem.uf2" $CI_RELEASE_FILENAME-with-filesystem.uf2
+        log_inform "Copying -with-filesystem .uf2 to $(pwd)/$RELEASE_FILE-with-filesystem.uf2"
+        cp "$BUILD_DIR/firmware-with-filesystem.uf2" $RELEASE_FILE-with-filesystem.uf2
     fi
 }
 
