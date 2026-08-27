@@ -27,6 +27,21 @@ This repository is home to the MicroPython firmware and examples for Plasma 2040
 
 You can find the latest firmware releases at [https://github.com/pimoroni/plasma/releases/latest](https://github.com/pimoroni/plasma/releases/latest).
 
+Pick the build that matches your board:
+
+| Board | Firmware |
+|-------|----------|
+| Plasma 2350 | `plasma_2350_w` |
+| Plasma 2350 W | `plasma_2350_w` |
+| Plasma Stick 2040 W | `plasma_stick_2040_w` |
+| Plasma 2040 | `plasma_2040` |
+
+Plasma 2350 and Plasma 2350 W run the same build. The non-W brings the wireless
+pins out to an SP/CE connector instead of having a module soldered down, so a
+Plasma 2350 with an RM2 breakout in that socket does everything a 2350 W does -
+see [rm2_catfacts.py](examples/rm2_catfacts.py). With nothing plugged in, those
+pins stay available as ordinary GPIO.
+
 For each board there are two choices, a regular build that just updates the firmware and a "-with-filesystem" build which includes a selection of [examples](examples) depending upon your board.
 
 :warning: If you've changed any of the code on your board then back up before flashing "-with-filesystem" - *your files will be erased!*
