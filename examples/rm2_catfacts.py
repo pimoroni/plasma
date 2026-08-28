@@ -15,6 +15,10 @@ spce=True, which points the driver at those pins instead.
 Add your wireless details to secrets.py before running this.
 """
 
+# True for a Plasma 2350 with an RM2 breakout in the SP/CE socket.
+# False for a Plasma 2350 W, which has its module wired to its own pins.
+USE_SPCE = True
+
 URL = "http://catfact.ninja/fact"
 UPDATE_INTERVAL = 60  # refresh interval in secs. Be nice to free APIs!
 
@@ -39,8 +43,7 @@ led_strip.start()
 # amber while we bring the wireless up
 fill(255, 140, 0)
 
-# drop spce=True on a Plasma 2350 W, where the module is already on its own pins
-if connect(spce=True):
+if connect(spce=USE_SPCE):
     fill(0, 255, 0)
 else:
     print("Wifi connection failed!")
