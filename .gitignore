@@ -43,3 +43,4 @@ build
 venv
 .vscode
 
+boards/*/version.py

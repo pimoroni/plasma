@@ -100,6 +100,12 @@ Adjust the brightness or saturation of the LEDs using a sine wave.
 
 Some good old fashioned rainbows!
 
+### Single Colour
+
+[single_colour.py](single_colour.py)
+
+Lights the whole strip in one colour. A good way to check your LED count and colour order are right.
+
 ### Snow
 
 [snow.py](snow.py)
@@ -127,6 +133,12 @@ A Christmas tree simulator.
 ## Advanced Examples
 
 These examples require additional hardware.
+
+### Button Control
+
+[button_control.py](button_control.py)
+
+Use the buttons to set the hue and brightness of your LED strip.
 
 ### CO2
 
@@ -159,6 +171,12 @@ Connect a PIR motion sensor and trigger some ominous effects. We like [these one
 
 Reads the temperature from a [BME280 breakout](https://shop.pimoroni.com/products/bme280-breakout) and changes the LED strip an appropriate colour.
 
+### Trackball
+
+[trackball.py](trackball.py)
+
+Use a [Trackball breakout](https://shop.pimoroni.com/products/trackball-breakout) to set how much of the strip is lit, and what colour.
+
 ## Wireless Examples
 
 These examples will also work on Plasma 2350 W or Plasma 2350 with an RM2 module.
@@ -166,6 +184,12 @@ These examples will also work on Plasma 2350 W or Plasma 2350 with an RM2 module
 The wireless examples need `secrets.py` from the `examples` directory to be saved to your Pico W. Open up `secrets.py` in Thonny to add your wifi details (and save it when you're done).
 
 - [micropython/examples/common](../../examples/common)
+
+### Cat Facts (RM2)
+
+[rm2_catfacts.py](rm2_catfacts.py)
+
+Fetches a cat fact over an RM2 module in the SP/CE socket of a Plasma 2350, showing how to point the wireless driver at those pins.
 
 ### Cheerlights
 
@@ -181,6 +205,13 @@ Find out more about the Cheerlights API at [https://cheerlights.com/].
 This Plasma Stick example connects to Open Meteo to access the current weather conditions.
 It then does some cool weather appropriate stuff with LEDs.
 Find out more about the Open Meteo API at [https://open-meteo.com].
+
+### Webpage
+
+[webpage.py](webpage.py)
+
+Serves a web page with a colour picker on it and sets your LED strip to match.
+Needs [phew](https://github.com/pimoroni/phew), which is not built into the firmware.
 
 ## Other Resources
 

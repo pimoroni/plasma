@@ -29,9 +29,9 @@ jobs:
     - name: Compiler Cache Fixup
       run: |
         mkdir -p /home/runner/.ccache
-  
+
     - name: "CCache: Restore saved cache"
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: /home/runner/.ccache
         key: ccache-micropython-${{ matrix.name }}-${{ github.ref }}-${{ github.sha }}
@@ -40,23 +40,47 @@ jobs:
           ccache-micropython-${{ matrix.name }}-
 
     - name: "Checkout Project"
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         submodules: true
         path: ${{ env.CI_PROJECT_ROOT }}
+
+    - name: "Prepare All: Generate cache key"
+      shell: bash
+      run: |
+        echo "CI_CACHE_KEY=`shasum "$CI_PROJECT_ROOT/ci/micropython.sh" | cut -d " " -f 1`" >> $GITHUB_ENV
+
+    - name: "Prepare All: Restore saved cache"
+      id: cache-prepare-all
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.CI_BUILD_ROOT }}
+        key: prepare-all-${{ env.CI_CACHE_KEY }}
+        restore-keys: |
+          prepare-all-${{ env.CI_CACHE_KEY }}
 
     - name: "Install Arm GNU Toolchain (arm-none-eabi-gcc)"
       uses: carlosperate/arm-none-eabi-gcc-action@v1
       with:
         release: '14.2.Rel1'
 
-    - name: "Prepare tools & dependencies"
+    - name: "Prepare All: Install dependencies"
+      if: steps.cache-prepare-all.outputs.cache-hit == 'true'
+      shell: bash
+      run: |
+        source $CI_PROJECT_ROOT/ci/micropython.sh
+        ci_install_build_deps
+        ci_python_prepare
+
+    - name: "Prepare All: Prepare tools & dependencies"
+      if: steps.cache-prepare-all.outputs.cache-hit != 'true'
       shell: bash
       run: |
         source $CI_PROJECT_ROOT/ci/micropython.sh
         mkdir -p $CI_BUILD_ROOT
-        ci_apt_install_build_deps
+        ci_install_build_deps
         ci_prepare_all
+        ci_python_prepare
 
     - name: "MicroPython: Configure"
       shell: bash
@@ -72,25 +96,25 @@ jobs:
         ci_cmake_build ${{ matrix.name }}
 
     - name: "Artifacts: Upload .uf2"
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ env.CI_RELEASE_FILENAME }}.uf2
         path: ${{ env.CI_BUILD_ROOT }}/${{ env.CI_RELEASE_FILENAME }}.uf2
-        
+
     - name: "Artifacts: Upload .uf2 (With Filesystem)"
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ env.CI_RELEASE_FILENAME }}-with-filesystem.uf2
         path: ${{ env.CI_BUILD_ROOT }}/${{ env.CI_RELEASE_FILENAME }}-with-filesystem.uf2
 
     - name: "Release: Upload .uf2"
       if: github.event_name == 'release'
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         files: ${{ env.CI_BUILD_ROOT }}/${{ env.CI_RELEASE_FILENAME }}.uf2
 
     - name: "Release: Upload .uf2 (With Filesystem)"
       if: github.event_name == 'release'
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         files: ${{ env.CI_BUILD_ROOT }}/${{ env.CI_RELEASE_FILENAME }}-with-filesystem.uf2

@@ -19,3 +19,6 @@ sparkles.py
 rgb-led-and-buttons.py
 fire.py
 alternating-blinkies.py
+single_colour.py
+button_control.py
+trackball.py
