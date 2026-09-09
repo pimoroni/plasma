@@ -5,6 +5,15 @@ set(PICO_PLATFORM "rp2350")
 # Board specific version of the frozen manifest
 set(MICROPY_FROZEN_MANIFEST ${MICROPY_BOARD_DIR}/manifest.py)
 
+# The flash split, firmware then the filesystem, set here so the linker sees it too.
+# FLASH_SIZE_BYTES must agree with PICO_FLASH_SIZE_BYTES in pimoroni_plasma2350w.h.
+math(EXPR FLASH_SIZE_BYTES "4 * 1024 * 1024")
+math(EXPR FIRMWARE_SIZE_BYTES "2 * 1024 * 1024")
+
+if(NOT DEFINED MICROPY_HW_FLASH_STORAGE_BYTES)
+    math(EXPR MICROPY_HW_FLASH_STORAGE_BYTES "${FLASH_SIZE_BYTES} - ${FIRMWARE_SIZE_BYTES}")
+endif()
+
 set(MICROPY_C_HEAP_SIZE 4096)
 
 # Links micropy_lib_lwip and sets MICROPY_PY_LWIP = 1
