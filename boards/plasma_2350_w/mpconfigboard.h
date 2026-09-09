@@ -29,6 +29,11 @@
 int mp_hal_is_pin_reserved(int n);
 #define MICROPY_HW_PIN_RESERVED(i) mp_hal_is_pin_reserved(i)
 
+// core1 is picovector's worker, which the spidisplay module's frame conversion shares.
+// With threads on, every soft reset resets core1 under a worker that believes it is
+// still running, and the next job waits for it forever.
+#define MICROPY_PY_THREAD                       (0)
+
 // Defines for the Plasma MicroPython module default args
 #define PLASMA_CLOCK_PIN PLASMA2350_CLK_PIN
 #define PLASMA_DATA_PIN PLASMA2350_DATA_PIN
