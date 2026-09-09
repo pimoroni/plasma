@@ -8,7 +8,7 @@ PIMORONI_PICO_VERSION="60621130f201b025d280786d6b5078597b29daa3"
 
 # PicoVector v3, which the RP2350 board builds in place of the in-tree module, and the
 # SP/CE screen driver and library on its connector
-PIMORONI_PICOVECTOR_VERSION="b5aaa2e4861fe81cb535160c541958424be4e6ff"
+PIMORONI_PICOVECTOR_VERSION="8b235441ee371e9ef328dfb8a5ad291a23ef26a1"
 PIMORONI_SPIDISPLAY_VERSION="f94b8209bf5e998792dc9d40ffd9cf24f1e4d1a7"
 
 PY_DECL_VERSION="v0.0.5"
