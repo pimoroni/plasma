@@ -22,12 +22,12 @@
 #define PIMORONI_PLASMA2350W
 
 // --- BOARD SPECIFIC ---
-#define SPICE_SPI 0
-#define SPICE_TX_MISO_PIN 8
-#define SPICE_RX_CS_PIN 9
-#define SPICE_NETLIGHT_SCK_PIN 10
-#define SPICE_RESET_MOSI_PIN 11
-#define SPICE_PWRKEY_BL_PIN 7
+#define SPCE_SPI 1
+#define SPCE_TX_MISO_PIN 8
+#define SPCE_RX_CS_PIN 9
+#define SPCE_NETLIGHT_SCK_PIN 10
+#define SPCE_RESET_MOSI_PIN 11
+#define SPCE_PWRKEY_BL_PIN 7
 
 #define PLASMA2350_SW_A_PIN 12
 
@@ -50,19 +50,23 @@
 #define PLASMA2350_A2_PIN 28
 #define PLASMA2350_NUM_ADC_PINS 3
 
-#define PLASMA2350_CURRENT_SENSE_PIN 29
-
 // --- RP2350 VARIANT ---
 #define PICO_RP2350A 1
 
 // --- UART ---
-// no PICO_DEFAULT_UART
-// no PICO_DEFAULT_UART_TX_PIN
-// no PICO_DEFAULT_UART_RX_PIN
+#ifndef PICO_DEFAULT_UART
+#define PICO_DEFAULT_UART 0
+#endif
+#ifndef PICO_DEFAULT_UART_TX_PIN
+#define PICO_DEFAULT_UART_TX_PIN 0
+#endif
+#ifndef PICO_DEFAULT_UART_RX_PIN
+#define PICO_DEFAULT_UART_RX_PIN 1
+#endif
 
 // --- LED ---
 #ifndef PICO_DEFAULT_LED_PIN
-#define PICO_DEFAULT_LED_PIN TINY2350_LED_G_PIN
+#define PICO_DEFAULT_LED_PIN PLASMA2350_LED_G_PIN
 #endif
 // no PICO_DEFAULT_WS2812_PIN
 
@@ -71,7 +75,7 @@
 #endif
 
 // --- I2C ---
-// routed to Qw/St connector
+// routed to Qw/ST connector
 #ifndef PICO_DEFAULT_I2C
 #define PICO_DEFAULT_I2C PLASMA2350_I2C
 #endif
@@ -84,23 +88,22 @@
 
 // --- SPI ---
 #ifndef PICO_DEFAULT_SPI
-#define PICO_DEFAULT_SPI 0
+#define PICO_DEFAULT_SPI SPCE_SPI
 #endif
 #ifndef PICO_DEFAULT_SPI_SCK_PIN
-#define PICO_DEFAULT_SPI_SCK_PIN SPICE_NETLIGHT_SCK_PIN
+#define PICO_DEFAULT_SPI_SCK_PIN SPCE_NETLIGHT_SCK_PIN
 #endif
 #ifndef PICO_DEFAULT_SPI_TX_PIN
-#define PICO_DEFAULT_SPI_TX_PIN SPICE_RESET_MOSI_PIN
+#define PICO_DEFAULT_SPI_TX_PIN SPCE_RESET_MOSI_PIN
 #endif
 #ifndef PICO_DEFAULT_SPI_RX_PIN
-#define PICO_DEFAULT_SPI_RX_PIN SPICE_TX_MISO_PIN
+#define PICO_DEFAULT_SPI_RX_PIN SPCE_TX_MISO_PIN
 #endif
 #ifndef PICO_DEFAULT_SPI_CSN_PIN
-#define PICO_DEFAULT_SPI_CSN_PIN SPICE_RX_CS_PIN
+#define PICO_DEFAULT_SPI_CSN_PIN SPCE_RX_CS_PIN
 #endif
 
 // --- FLASH ---
-
 #define PICO_BOOT_STAGE2_CHOOSE_W25Q080 1
 
 #ifndef PICO_FLASH_SPI_CLKDIV
@@ -111,8 +114,17 @@
 #ifndef PICO_FLASH_SIZE_BYTES
 #define PICO_FLASH_SIZE_BYTES (4 * 1024 * 1024)
 #endif
-// Drive high to force power supply into PWM mode (lower ripple on 3V3 at light loads)
-// note the SMSP mode pin is on WL_GPIO1
+
+// pico_cmake_set_default PICO_RP2350_A2_SUPPORTED = 1
+#ifndef PICO_RP2350_A2_SUPPORTED
+#define PICO_RP2350_A2_SUPPORTED 1
+#endif
+
+// no PICO_SMPS_MODE_PIN
+// no PICO_VBUS_PIN
+// no PICO_VSYS_PIN
+
+// --- CYW43 ---
 
 #ifndef CYW43_WL_GPIO_COUNT
 #define CYW43_WL_GPIO_COUNT 3
@@ -120,30 +132,6 @@
 
 #ifndef CYW43_WL_GPIO_LED_PIN
 #define CYW43_WL_GPIO_LED_PIN 0
-#endif
-
-// If CYW43_WL_GPIO_VBUS_PIN is defined then a CYW43 GPIO has to be used to read VBUS.
-// This can be passed to cyw43_arch_gpio_get to determine if the device is battery powered.
-// PICO_VBUS_PIN and CYW43_WL_GPIO_VBUS_PIN should not both be defined.
-#ifndef CYW43_WL_GPIO_VBUS_PIN
-#define CYW43_WL_GPIO_VBUS_PIN 2
-#endif
-
-// If CYW43_USES_VSYS_PIN is defined then CYW43 uses the VSYS GPIO (defined by PICO_VSYS_PIN) for other purposes.
-// If this is the case, to use the VSYS GPIO it's necessary to ensure CYW43 is not using it.
-// This can be achieved by wrapping the use of the VSYS GPIO in cyw43_thread_enter / cyw43_thread_exit.
-#ifndef CYW43_USES_VSYS_PIN
-#define CYW43_USES_VSYS_PIN 1
-#endif
-
-// The GPIO Pin used to monitor VSYS. Typically you would use this with ADC.
-// There is an example in adc/read_vsys in pico-examples.
-#ifndef PICO_VSYS_PIN
-#define PICO_VSYS_PIN 29
-#endif
-
-#ifndef PICO_RP2350_A2_SUPPORTED
-#define PICO_RP2350_A2_SUPPORTED 1
 #endif
 
 // PICO_CONFIG: CYW43_PIN_WL_DYNAMIC, flag to indicate if cyw43 SPI pins can be changed at runtime, type=bool, default=false, advanced=true, group=pico_cyw43_driver
