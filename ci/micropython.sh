@@ -9,7 +9,7 @@ PIMORONI_PICO_VERSION="patch/picovector-v3"
 # PicoVector v3, which the RP2350 board builds in place of the in-tree module, and the
 # SP/CE screen driver and library on its connector
 PIMORONI_PICOVECTOR_VERSION="rgba4444-pixel-format"
-PIMORONI_SPIDISPLAY_VERSION="main"
+PIMORONI_SPIDISPLAY_VERSION="v1.0.0"
 
 PY_DECL_VERSION="v0.0.5"
 DIR2UF2_VERSION="v0.1.0"
